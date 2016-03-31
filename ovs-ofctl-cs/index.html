@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Open vSwitch ovs-ofctl Command Cheatsheet | CNCS</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="alternate" href="atom.xml" type="application/atom+xml">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<header>
+
+  <div class="wrapper clearfix">
+    
+<a href="/" class="site-title"><code>$_</code></a>
+
+    
+    <div class="menu"><span class="hamburger"><span></span></span></div>
+    <nav role="navigation" class="nav">
+      
+      <a href="/">Home</a>
+      
+      <a href="https://github.com/haishanh/cncs/">GitHub</a>
+      
+    </nav>
+    
+  </div>
+</header>
+<section class="main post">
+  <div class="wrapper clearfix">
+    <div class="post-header">
+      <h1 class="post-title">
+        
+          <a href="/ovs-ofctl-cs/">Open vSwitch ovs-ofctl Command Cheatsheet</a>
+        
+      </h1>
+      
+      <span class="post-meta">January 15, 2016</span>
+      
+    </div>
+    
+
+  
+
+
+<div class="side toc">
+  <div class="toc-title">In this page</div>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#管理相关命令"><span class="toc-text">管理相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看bridge信息"><span class="toc-text">查看bridge信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dump-flow-table"><span class="toc-text">Dump flow table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dump-flow"><span class="toc-text">Dump flow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flow-Table相关命令"><span class="toc-text">Flow Table相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#添加-flow"><span class="toc-text">添加 flow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改-flow"><span class="toc-text">修改 flow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-flow"><span class="toc-text">删除 flow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flow-Syntax"><span class="toc-text">Flow Syntax</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#in-port"><span class="toc-text">in_port</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dl-vlan"><span class="toc-text">dl_vlan</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dl-vlan-pcp"><span class="toc-text">dl_vlan_pcp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dl-src-amp-dl-dst"><span class="toc-text">dl_src & dl_dst</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dl-type"><span class="toc-text">dl_type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-src-amp-nw-dst"><span class="toc-text">nw_src & nw_dst</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-proto-or-ip-proto"><span class="toc-text">nw_proto or ip_proto</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-tos"><span class="toc-text">nw_tos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ip-dscp"><span class="toc-text">ip_dscp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-ecn-or-ip-ecn"><span class="toc-text">nw_ecn or ip_ecn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-ttl"><span class="toc-text">nw_ttl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-udp-sctp-port"><span class="toc-text">tcp / udp / sctp port</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-flags"><span class="toc-text">tcp flags</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#icmp-type-amp-icmp-code"><span class="toc-text">icmp_type & icmp_code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协议关键字"><span class="toc-text">协议关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cookie"><span class="toc-text">cookie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#actions"><span class="toc-text">actions</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#output"><span class="toc-text">output</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#group"><span class="toc-text">group</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#normal"><span class="toc-text">normal</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#flood"><span class="toc-text">flood</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#all"><span class="toc-text">all</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#local"><span class="toc-text">local</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#in-port-1"><span class="toc-text">in_port</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#controller"><span class="toc-text">controller</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#enqueue"><span class="toc-text">enqueue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#drop"><span class="toc-text">drop</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vlan"><span class="toc-text">vlan</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mpls"><span class="toc-text">mpls</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#datalink-header-mod"><span class="toc-text">datalink header mod</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#network-header-mod"><span class="toc-text">network header mod</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#transport-header-mod"><span class="toc-text">transport header mod</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Examples"><span class="toc-text">Examples</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#VLAN相关"><span class="toc-text">VLAN相关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用cookie"><span class="toc-text">使用cookie</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contributors"><span class="toc-text">Contributors</span></a></li></ol>
+</div>
+    <div class="post-content">
+      <h2 id="管理相关命令"><a href="#管理相关命令" class="headerlink" title="管理相关命令"></a>管理相关命令</h2><h3 id="查看bridge信息"><a href="#查看bridge信息" class="headerlink" title="查看bridge信息"></a>查看bridge信息</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ovs-ofctl show br0</span><br><span class="line"><span class="comment"># 显示结果中port前面的数字为OpenFlow port id</span></span><br></pre></td></tr></table></figure>
+<h3 id="Dump-flow-table"><a href="#Dump-flow-table" class="headerlink" title="Dump flow table"></a>Dump flow <strong>table</strong></h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Dump br0所使用的flow table</span></span><br><span class="line">ovs-ofctl dump-tables br0</span><br></pre></td></tr></table></figure>
+<h3 id="Dump-flow"><a href="#Dump-flow" class="headerlink" title="Dump flow"></a>Dump flow</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Dump br0的所有flow</span></span><br><span class="line">ovs-ofctl dump-flows br0</span><br><span class="line"></span><br><span class="line"><span class="comment"># Dump br0上匹配xx的flow</span></span><br><span class="line">ovs-ofctl dump-flows br0 xx</span><br></pre></td></tr></table></figure>
+<h2 id="Flow-Table相关命令"><a href="#Flow-Table相关命令" class="headerlink" title="Flow Table相关命令"></a>Flow Table相关命令</h2><h3 id="添加-flow"><a href="#添加-flow" class="headerlink" title="添加 flow"></a>添加 flow</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ovs-ofctl add-flow br0 <span class="keyword">in</span>_port=1,actions=xx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从文件br0flow.txt中导入Flow Table</span></span><br><span class="line"><span class="comment"># 该文件必须一行一个flow</span></span><br><span class="line">ovs-ofctl add-flow br0 - &lt; br0flow.txt</span><br></pre></td></tr></table></figure>
+<h3 id="修改-flow"><a href="#修改-flow" class="headerlink" title="修改 flow"></a>修改 flow</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ovs-ofctl mod-flows br0 xxx</span><br><span class="line"></span><br><span class="line">ovs-ofctl mod-flows br0 - &lt; br0flow.txt</span><br></pre></td></tr></table></figure>
+<h3 id="删除-flow"><a href="#删除-flow" class="headerlink" title="删除 flow"></a>删除 flow</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 删除br0上的所有flow</span></span><br><span class="line">ovs-ofctl del-flows br0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除br0上匹配xx的所有flow</span></span><br><span class="line">ovs-ofctl del-flows br0 xx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除br0上匹配文件br0flow.txt中各条目的flow</span></span><br><span class="line">ovs-ofctl del-flows br0 - &lt; br0flow.txt</span><br></pre></td></tr></table></figure>
+<h2 id="Flow-Syntax"><a href="#Flow-Syntax" class="headerlink" title="Flow Syntax"></a>Flow Syntax</h2><p><code>ovs-ofctl</code>的Flow语法由一系列<code>field=value</code>形式的键值对组成，用英文逗号和空格隔开。</p>
+<p>在描述Flow时，必须要遵循IP stack常理。比如说，在flow中使用了L3(层3)的字段时，必须也要指明L2所用的协议。使用了L4的字段时，必须也要指明L2和L3所用的协议。</p>
+<p>本文档不包含 <code>ovs-ofctl</code> 对 OpenFlow 的 VMware/Nicira 扩展 flow 语法。</p>
+<h3 id="in-port"><a href="#in-port" class="headerlink" title="in_port"></a>in_port</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">in_port=&lt;port&gt;</span><br></pre></td></tr></table></figure>
+<p>匹配从OpenFlow port id <code>&lt;port&gt;</code> 进入的数据包。OpenFlow port id可以通过<code>ovs-ofctl show &lt;br&gt;</code>来查看。</p>
+<h3 id="dl-vlan"><a href="#dl-vlan" class="headerlink" title="dl_vlan"></a>dl_vlan</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dl_vlan=&lt;vlan&gt;</span><br></pre></td></tr></table></figure>
+<p>匹配IEEE 802.1Q VLAN tag为 <code>&lt;vlan&gt;</code> 的数据包。<vlan>的值应该在[0-4095]这个区间。<code>dl_vlan=0xffff</code>表示匹配没有VLAN tag的包。</vlan></p>
+<h3 id="dl-vlan-pcp"><a href="#dl-vlan-pcp" class="headerlink" title="dl_vlan_pcp"></a>dl_vlan_pcp</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dl_vlan_pcp=&lt;priority&gt;</span><br></pre></td></tr></table></figure>
+<p>匹配IEEE 802.1Q Priority Code Point(PCP, 优先级代码点)为<priority>的数据包，改值取值区间为[0-7]。数字越大，表示优先级越高。</priority></p>
+<h3 id="dl-src-amp-dl-dst"><a href="#dl-src-amp-dl-dst" class="headerlink" title="dl_src &amp; dl_dst"></a>dl_src &amp; dl_dst</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dl_src=xx:xx:xx:xx:xx:xx</span><br><span class="line">dl_dst=xx:xx:xx:xx:xx:xx</span><br></pre></td></tr></table></figure>
+<p>匹配源和目标MAC地址。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dl_src=xx:xx:xx:xx:xx:xx/xx:xx:xx:xx:xx:xx</span><br><span class="line">dl_dst=xx:xx:xx:xx:xx:xx/xx:xx:xx:xx:xx:xx</span><br></pre></td></tr></table></figure>
+<p>匹配源和目的MAC地址。其中”/“后面的为掩码。比如说，如果掩码是：</p>
+<ul>
+<li><code>01:00:00:00:00:00</code> 只匹配组播MAC (第一个字节LSB为1的MAC地址为MAC组播地址)</li>
+<li><code>fe:ff:ff:ff:ff:ff</code> 匹配其他所有MAC，除了组播MAC</li>
+<li><code>ff:ff:ff:ff:ff:ff</code> 完全匹配掩码前的MAC，和省掉掩码的效果一样</li>
+<li><code>00:00:00:00:00:00</code> 完全通配，相当于(dl_dst=*)</li>
+</ul>
+<h3 id="dl-type"><a href="#dl-type" class="headerlink" title="dl_type"></a>dl_type</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">dl_type=&lt;ethertype&gt;</span><br></pre></td></tr></table></figure>
+<p>匹配L2(Data Link Layer) header中的协议类型<ethertype>，该字段描述L3的类型。有效值区间[0, 65535]，可以是十进制数或者是以”0x”开头的十六进制数。比如：</ethertype></p>
+<ul>
+<li><code>dl_type=0x0800</code> 匹配IP数据包</li>
+<li><code>dl_type=0x0806</code> 匹配ARP数据包</li>
+<li><code>dl_type=0x8035</code> 匹配RARP数据包</li>
+</ul>
+<div class="admonition note"><p class="admonition-title">Note</p><p>需要说明的是 dl_type=0x0800 可以用关键字 ip 代替。</p><p>而 dl_type=0x0806 可以用关键字 arp 代替。dl_type=0x8035 可以用关键字 rarp 代替。</p></div>
+<h3 id="nw-src-amp-nw-dst"><a href="#nw-src-amp-nw-dst" class="headerlink" title="nw_src &amp; nw_dst"></a>nw_src &amp; nw_dst</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nw_src=&lt;ip[/netmask]&gt;</span><br><span class="line">nw_dst=&lt;ip[/netmask]&gt;</span><br></pre></td></tr></table></figure>
+<p>当使用了 <code>dl_type=0x0800</code> 或者关键字 <code>ip</code> 或 <code>tcp</code> 时，<code>nw_src</code> 和 <code>nw_dst</code>分配匹配IP头中的源IP地址和目的IP地址。其中<strong>netmask</strong>可以是<code>255.255.255.0</code>这样的(dotted quad)形式，也可以是数字 <code>24</code> 这样的(CIDR)形式</p>
+<p>当使用了 <code>dl_type=0x0806</code> 或者关键字 <code>arp</code> 时，<code>nw_src</code> 匹配 ARP 头中的 <strong>ar_spa</strong>(Sender Protocol Address)字段。<code>nw_dst</code> 匹配ARP头中的 <strong>ar_tpa</strong>(Target Protocol Address)字段</p>
+<p>当使用了 <code>dl_type=0x8035</code> 或者关键字 <code>rarp</code> 时，<code>nw_src</code>匹配 RARP 头中的 <strong>ar_spa</strong>(Sender Protocol Address)字段。<code>nw_dst</code>匹配RARP头中的 <strong>ar_tpa</strong>(Target Protocol Address)字段</p>
+<p>当 <code>dl_type</code> 使用了通配符或者除了<code>0x0800</code>, <code>0x0806</code>, <code>0x8035</code>以外的值，则<code>nw_src</code>, <code>nw_dst</code>的值会被忽略</p>
+<h3 id="nw-proto-or-ip-proto"><a href="#nw-proto-or-ip-proto" class="headerlink" title="nw_proto or ip_proto"></a>nw_proto or ip_proto</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nw_proto=&lt;proto&gt;</span><br><span class="line">ip_proto=&lt;proto&gt;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>当<code>dl_type=0x0800</code>或使用了关键字<code>ip</code>时，匹配IP头中的proto字段，取值区间[0, 255]，比如为1时可以匹配ICMP数据包，为6时匹配TCP数据包。</li>
+<li>当<code>dl_type=0x86dd</code>或使用了关键字<code>ipv6</code>是，匹配IPv6头中的proto字段，取值区间[0, 255]，比如为58时匹配ICMPv6数据包，为6时匹配TCP数据包</li>
+<li>当<code>dl_type=0x0806</code>或者使用了关键字<code>arp</code>时，匹配ARP opcode的低8位，ARP opcode大于255时，与等于0效果一样</li>
+<li>当<code>dl_type=0x8035</code>或者使用了关键字<code>rarp</code>时，匹配ARP opcode的低8位， ARP opcode大于255时，与等于0效果一样</li>
+<li>当<code>dl_type</code>使用了通配符或这除了<code>0x0800</code>, <code>0x0806</code>, <code>0x8035</code>以外的值，则<code>nw_proto</code>的值会被忽略</li>
+</ul>
+<h3 id="nw-tos"><a href="#nw-tos" class="headerlink" title="nw_tos"></a>nw_tos</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nw_tos=&lt;tos&gt;</span><br></pre></td></tr></table></figure>
+<p>匹配IP ToS字段或IPv6的traffic class字段取值为<code>&lt;toc&gt;</code>的数据包。取值区间[0, 255]，需要注意的是最低2位会被忽略。当<code>dl_type</code>使用除0x800(IP)和0x86dd(IPv6)以为的数值时，该字段被忽略。</p>
+<h3 id="ip-dscp"><a href="#ip-dscp" class="headerlink" title="ip_dscp"></a>ip_dscp</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ip_dscp=&lt;dscp&gt;</span><br></pre></td></tr></table></figure>
+<p>匹配IP DSCP字段或IPv6的traffic class字段取值为<code>&lt;dscp&gt;</code>的数据包。IP ToS字段的高6位为DSCP比特位。取值区间[0, 63]，需要注意的是最低2位会被忽略。当<code>dl_type</code>使用除0x800(IP)和0x86dd(IPv6)以为的数值时，该字段被忽略。</p>
+<h3 id="nw-ecn-or-ip-ecn"><a href="#nw-ecn-or-ip-ecn" class="headerlink" title="nw_ecn or ip_ecn"></a>nw_ecn or ip_ecn</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nw_ecn=&lt;ecn&gt;</span><br><span class="line">ip_ecn=&lt;ecn&gt;</span><br></pre></td></tr></table></figure>
+<p>匹配IP ToS字段或IPv6的traffic class字段中ecn比特位为<code>&lt;ecn&gt;</code>的数据包。IP ToS字段的低2位为ECN比特位。取值区间[0, 3]。当<code>dl_type</code>使用除0x800(IP)和0x86dd(IPv6)以为的数值时，该字段被忽略。</p>
+<h3 id="nw-ttl"><a href="#nw-ttl" class="headerlink" title="nw_ttl"></a>nw_ttl</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nw_ttl=&lt;ttl&gt;</span><br></pre></td></tr></table></figure>
+<p>匹配IP和IPv6的TTL字段为<ttl>的数据包。取值区间[0, 255]。当<code>dl_type</code>使用除0x800(IP)和0x86dd(IPv6)以为的数值时，该字段被忽略。</ttl></p>
+<h3 id="tcp-udp-sctp-port"><a href="#tcp-udp-sctp-port" class="headerlink" title="tcp / udp / sctp port"></a>tcp / udp / sctp port</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tcp_src=&lt;port&gt;</span><br><span class="line">tcp_dst=&lt;port&gt;</span><br><span class="line">udp_src=&lt;port&gt;</span><br><span class="line">udp_dst=&lt;port&gt;</span><br><span class="line">sctp_src=&lt;port&gt;</span><br><span class="line">sctp_dst=&lt;port&gt;</span><br></pre></td></tr></table></figure>
+<p>匹配TCP, UDP, SCTP 源或目的端口为<code>&lt;port&gt;</code>的数据包。取值区间[0, 65535]。当<code>dl_type</code>以及<code>nw_proto</code>使用了通配符或者设置了不合理的值，该字段被忽略。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tcp_src=&lt;port/mask&gt;</span><br><span class="line">tcp_dst=&lt;port/mask&gt;</span><br><span class="line">udp_src=&lt;port/mask&gt;</span><br><span class="line">udp_dst=&lt;port/mask&gt;</span><br><span class="line">sctp_src=&lt;port/mask&gt;</span><br><span class="line">sctp_dst=&lt;port/mask&gt;</span><br></pre></td></tr></table></figure>
+<p>按位匹配TCP, UDP, SCTP源或目的端口。</p>
+<h3 id="tcp-flags"><a href="#tcp-flags" class="headerlink" title="tcp flags"></a>tcp flags</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">tcp_flags=&lt;flags&gt;/&lt;mask&gt;</span><br><span class="line">tcp_flags=[+&lt;flag&gt;...][-&lt;flag...&gt;]</span><br></pre></td></tr></table></figure>
+<p>按位匹配TCP flags。其中<flags>和<mask>都是16bit数字，可以使十进制的形式或者是以”0x”开头的十六进制形式。<mask>中为1的bit，要求<flags>中对应bit必须匹配。<mask>中为0的bit，<flags>中的对应bit在进行匹配时会忽略。</flags></mask></flags></mask></mask></flags></p>
+<p>除了按位匹配TCP flags外，也可以flag的名称（见下）来进行描述匹配规则。每个flag名称前面的”+”表示匹配设置了该flag的数据包，而”-“表示匹配未设置该flag的数据包。规则中未提及的flag在匹配时忽略。比如 <code>tcp,tcp_flags=+syn-ack</code> 表示匹配SYN但非ACK的TCP数据包。</p>
+<p>目前TCP协议中定义了9个flag位，3个额外的保留位（必须设置成0）。这些 flag 从 LSB（最低有效位）开始的排序如下：</p>
+<ul>
+<li><code>0</code>: <code>fin</code> 表示发送方没有数据要传输了，要去释放连接</li>
+<li><code>1</code>: <code>syn</code> 同步序列数</li>
+<li><code>2</code>: <code>rst</code> 重置连接</li>
+<li><code>3</code>: <code>psh</code> Push功能，指示接收方应该加快将这个报文段交给应用层而不用等待缓冲区装满</li>
+<li><code>4</code>: <code>ack</code> ACK</li>
+<li><code>5</code>: <code>urg</code> 表示高优先级数据包</li>
+<li><code>6</code>: <code>ece</code> ECN Echo</li>
+<li><code>7</code>: <code>cwr</code> Congestion Windows Reduced</li>
+<li><code>8</code>: <code>ns</code> Nonce Sum</li>
+<li><code>9-11</code>: 保留位</li>
+<li><code>12-15</code>: 不可用于匹配，必须设为0</li>
+</ul>
+<h3 id="icmp-type-amp-icmp-code"><a href="#icmp-type-amp-icmp-code" class="headerlink" title="icmp_type &amp; icmp_code"></a>icmp_type &amp; icmp_code</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">icmp_type=&lt;type&gt;</span><br><span class="line">icmp_code=&lt;code&gt;</span><br></pre></td></tr></table></figure>
+<p>当 <code>dl_type</code> 和 <code>nw_proto</code> 确定数据包为 ICMP 或 ICMPv6 时，匹配 ICMP type 和 code。取值区间都为[0, 255]。如果 <code>dl_type</code> 和 <code>mw_proto</code> 使用了其他值时，该字段忽略。</p>
+<h3 id="协议关键字"><a href="#协议关键字" class="headerlink" title="协议关键字"></a>协议关键字</h3><p>协议关键字相当于是个<em>alias</em>，对应如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ip     =  dl_type=0x0800</span><br><span class="line">ipv6   =  dl_type=0x86dd</span><br><span class="line">icmp   =  dl_type=0x0800,nw_proto=1</span><br><span class="line">icmp6  =  dl_type=0x86dd,nw_proto=58</span><br><span class="line">tcp    =  dl_type=0x0800,nw_proto=6</span><br><span class="line">tcp6   =  dl_type=0x86dd,nw_proto=6</span><br><span class="line">udp    =  dl_type=0x0800,nw_proto=17</span><br><span class="line">udp6   =  dl_type=0x86dd,nw_proto=17</span><br><span class="line">sctp   =  dl_type=0x0800,nw_proto=132</span><br><span class="line">sctp6  =  dl_type=0x86dd,nw_proto=132</span><br><span class="line">arp    =  dl_type=0x0806</span><br><span class="line">rarp   =  dl_type=0x8035</span><br><span class="line">mpls   =  dl_type=0x8847</span><br><span class="line">mplsm  =  dl_type=0x8848</span><br></pre></td></tr></table></figure>
+<h3 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cookie=&lt;value&gt;</span><br></pre></td></tr></table></figure>
+<p>cookie 字段可以用于<br>命令<code>add-flow</code>， <code>add-flows</code>和 <code>mod-flows</code>中可以使用该字段，用于给 flow 设置识别信息。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cookie=&lt;value/mask&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="actions"><a href="#actions" class="headerlink" title="actions"></a>actions</h3><p>ovs-ofctl的 <code>add-flow</code>, <code>add-flows</code> 以及 <code>mod-flows</code> 命令都需要 <strong>actions</strong> 字段，描述对匹配的数据包执行的动作</p>
+<p>在上述的三条命令中，actions字段是flow的一部分，actions字段中<strong>可以有多个 action</strong>，它们之间用逗号隔开，一个flow的完整语法如下:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;field&gt;=&lt;value&gt;,[&lt;field&gt;=&lt;value&gt;]...,actions=&lt;action&gt;[,&lt;action&gt;...]</span><br></pre></td></tr></table></figure>
+<p>可使用的<strong>action</strong>非常多。如下：</p>
+<h4 id="output"><a href="#output" class="headerlink" title="output"></a>output</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">output:&lt;port&gt;</span><br></pre></td></tr></table></figure>
+<p>将数据包输出到OpenFlow port <code>&lt;port&gt;</code></p>
+<h4 id="group"><a href="#group" class="headerlink" title="group"></a>group</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">group:&lt;group_id&gt;</span><br></pre></td></tr></table></figure>
+<p>将数据包输出到OpenFlow group <code>&lt;group_id&gt;</code></p>
+<h4 id="normal"><a href="#normal" class="headerlink" title="normal"></a>normal</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">normal</span><br></pre></td></tr></table></figure>
+<p>按照设备的常规L2/L3处理流程来处理数据包。这通常是OVS默认flow中的action。要注意的是，并不是所有的OpenFlow switch都支持这个action。</p>
+<h4 id="flood"><a href="#flood" class="headerlink" title="flood"></a>flood</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">flood</span><br></pre></td></tr></table></figure>
+<p>将数据包输出到所有物理端口，除了该数据包的输入口以及不可被flooding的端口。</p>
+<h4 id="all"><a href="#all" class="headerlink" title="all"></a>all</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">all</span><br></pre></td></tr></table></figure>
+<p>将数据包输出到所有物理端口，除了该数据包的输入口。</p>
+<h4 id="local"><a href="#local" class="headerlink" title="local"></a>local</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">local</span><br></pre></td></tr></table></figure>
+<p>将数据包输出到local port（与bridge同名的端口）</p>
+<h4 id="in-port-1"><a href="#in-port-1" class="headerlink" title="in_port"></a>in_port</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">in_port</span><br></pre></td></tr></table></figure>
+<p>将数据包输出到其输入口</p>
+<h4 id="controller"><a href="#controller" class="headerlink" title="controller"></a>controller</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">controller(&lt;key&gt;=&lt;value&gt;...)</span><br></pre></td></tr></table></figure>
+<p>将数据包以”packet in”消息的形式发送到OpenFlow控制器。其中<code>&lt;key&gt;=&lt;value&gt;</code>键值对可以是：</p>
+<ul>
+<li><code>max_len=&lt;nbytes&gt;</code> 只将数据包的<nbytes>个字节发送到控制器。默认发送这个数据包。</nbytes></li>
+<li><code>reson=&lt;reason&gt;</code> 指明”pakcet in”消息中的reason字段。默认reason为<code>action</code>，还可以是<code>no_match</code>, <code>invalid_ttl</code>。</li>
+<li><code>id=&lt;controller-id&gt;</code>  指明控制器id，16位整数。表示要发送给那个控制器。默认使用的id是0.</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">controller</span><br><span class="line">controller[:nbytes]</span><br></pre></td></tr></table></figure>
+<p>分别是<code>controller()</code>和<code>controller(max_len=&lt;nbytes&gt;)</code>的简略写法。</p>
+<h4 id="enqueue"><a href="#enqueue" class="headerlink" title="enqueue"></a>enqueue</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">enqueue(&lt;port&gt;,&lt;queue&gt;)</span><br></pre></td></tr></table></figure>
+<p>将数据包放到端口<port>的队列<queue>中。其中<port>必须是OpenFlow端口号或关键字(如”LOCAL”)。不同交换机支持的队列数不同，有些OpenFlow实现根本不支持队列。</port></queue></port></p>
+<h4 id="drop"><a href="#drop" class="headerlink" title="drop"></a>drop</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">drop</span><br></pre></td></tr></table></figure>
+<p>丢掉该数据包。</p>
+<h4 id="vlan"><a href="#vlan" class="headerlink" title="vlan"></a>vlan</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mod_vlan_vid:&lt;vlan_vid&gt;</span><br></pre></td></tr></table></figure>
+<p>修改数据包的VLAN id为<vlan_vid>。如果数据包没有VLAN tag则添加VLAN id为<vlan_vid>的VLAN tag。如果数据包VLAN id已经为<vlan_vid>，则将其VLAN 优先级priority设为0.</vlan_vid></vlan_vid></vlan_vid></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mod_vlan_pcp:&lt;vlan_pcp&gt;</span><br></pre></td></tr></table></figure>
+<p>修改数据包的VLAN 优先级priority为<vlan_pcp>。如果数据包没有VLAN tag则添加VLAN priority为<vlan_pcp>的VLAN tag。合法值区间为[0, 7]，数字越大优先级越高。如果数据包VLAN priority已经为<vlan_pcp>，则将其VLAN id设为0.</vlan_pcp></vlan_pcp></vlan_pcp></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">strip_vlan</span><br></pre></td></tr></table></figure>
+<p>如果数据包有VLAN tag，则剥去VLAN tag。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">push_vlan:&lt;ethertype&gt;</span><br></pre></td></tr></table></figure>
+<p>给数据包添加新的VLAN tag。VLAN tag中ethertype设置为<ethertype>。目前<ethertype>只能是0x8100。新Tag的priority为0，vid为0.</ethertype></ethertype></p>
+<h4 id="mpls"><a href="#mpls" class="headerlink" title="mpls"></a>mpls</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">push_mpls:&lt;ethertype&gt;</span><br></pre></td></tr></table></figure>
+<p>将数据包的Ethertype改成<code>&lt;ethertype&gt;</code>，只能是<code>0x8847</code>或者<code>0x8848</code>，同时添加MPLS LSE。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pop_mpls:&lt;ethertype&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="datalink-header-mod"><a href="#datalink-header-mod" class="headerlink" title="datalink header mod"></a>datalink header mod</h4><p>剥去数据包<strong>最外层</strong>的一个MPLS lable stack。目前的实现中<code>&lt;ethertype&gt;</code>只能是non-MPLS Ethertype，所以<code>pop_mpls</code>只能用于只有一层MPLS lable stack的数据包。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mod_dl_src:&lt;mac&gt;</span><br><span class="line">mod_dl_dst:&lt;mac&gt;</span><br></pre></td></tr></table></figure>
+<p>将数据包的源或目的MAC地址设置成<mac></mac></p>
+<h4 id="network-header-mod"><a href="#network-header-mod" class="headerlink" title="network header mod"></a>network header mod</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mod_nw_src:&lt;ip&gt;</span><br><span class="line">mod_nw_dst:&lt;ip&gt;</span><br></pre></td></tr></table></figure>
+<p>将数据包的源或目的IP地址设置成<ip></ip></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mod_nw_tos:&lt;tos&gt;</span><br></pre></td></tr></table></figure>
+<p>设置IPv4头ToS/DSCP或IPv6头traffic class field中DSCP比特位设置成<tos>，数值必须是4的倍数，且在[0, 255]区间。这个action并不会修改ToS中的低2位(2 LSB)。</tos></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mod_nw_ecn:&lt;ecn&gt;</span><br></pre></td></tr></table></figure>
+<p>设置IPv4头ToS或IPv6头traffic class field中ECN比特位为<code>&lt;ecn&gt;</code>，数值区间为[0, 3]。这个action并不会修改高6位(6 MSB)。</p>
+<p>需要OpenFLow 1.1以上。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mod_nw_ttl:&lt;ttl&gt;</span><br></pre></td></tr></table></figure>
+<p>修改IPv4 TTL或IPv6 hop limit为<ttl>，取值区间为[0, 255]。</ttl></p>
+<p>需要OpenFlow 1.1以上。</p>
+<h4 id="transport-header-mod"><a href="#transport-header-mod" class="headerlink" title="transport header mod"></a>transport header mod</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mod_tp_src:&lt;port&gt;</span><br><span class="line">mod_tp_dst:&lt;port&gt;</span><br></pre></td></tr></table></figure>
+<p>将数据包的TCP/UDP/SCTP源或目的端口设置成<port></port></p>
+<h3 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h3><h4 id="VLAN相关"><a href="#VLAN相关" class="headerlink" title="VLAN相关"></a>VLAN相关</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 添加VLAN tag</span></span><br><span class="line">ovs-ofctl add-flow br0 <span class="keyword">in</span>_port=1,actions=mod_vlan_vid:10,output:2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 剥去VLAN tag</span></span><br><span class="line">ovs-ofctl add-flow br0 <span class="keyword">in</span>_port=2,dl_vlan=100,actions=strip_vlan,output:1</span><br></pre></td></tr></table></figure>
+<h4 id="使用cookie"><a href="#使用cookie" class="headerlink" title="使用cookie"></a>使用cookie</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># add a flow</span></span><br><span class="line">ovs-ofctl add-flow br0 cookie=0xf,tcp,tcp_dst=22,actions=mod_nw_tos:128,normal</span><br><span class="line"></span><br><span class="line"><span class="comment"># To delte this flow</span></span><br><span class="line">ovs-ofctl del-flows br0 cookie=0xf/-1,tcp,tcp_dst=22</span><br><span class="line"><span class="comment"># Or simply</span></span><br><span class="line">ovs-ofctl del-flows br0 cookie=0xf/-1</span><br><span class="line"></span><br><span class="line"><span class="comment"># trace a flow</span></span><br><span class="line">ovs-appctl ofproto/trace br0 tcp,tcp_dst=22</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Contributors"><a href="#Contributors" class="headerlink" title="Contributors"></a>Contributors</h2><p><a href="http://hanhaishan.com" target="_blank" rel="external">haishanh</a></p>
+
+    </div>
+    
+
+<div class="post-footer">
+  
+  Updated on 16/03/01
+</div>
+    
+<div class="post-buttons">
+  
+  
+    
+    <a href="https://github.com/haishanh/cncs/blob/master/source/_posts/ovs-ofctl-cs.md" target="_blank">Source</a>
+  
+</div>
+    
+  </div>
+  
+
+<div class="post-nav">
+<div style="height: 0; width: 0; position: absolute; visibility: hidden">
+  <!-- inject:svg --><svg xmlns="http://www.w3.org/2000/svg"><symbol id="ic_chevron_left_white_24px" viewBox="0 0 24 24">
+    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</symbol><symbol id="ic_chevron_right_white_24px" viewBox="0 0 24 24">
+    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</symbol></svg><!-- endinjected -->
+</div>
+  
+    <a href="/iproute2-cheetsheet/" class="nav prev">
+    <svg class="icon left"><use xlink:href="#ic_chevron_left_white_24px" /></svg>PREVIOUS</a>
+  
+  
+    <a href="/ovs-vsctl-cs/" class="nav next">
+    NEXT<svg class="icon right"><use xlink:href="#ic_chevron_right_white_24px" /></svg></a>
+  
+</div>
+</section><footer>
+  
+  <h3>CNCS</h3>
+  
+  
+  <p>A Collection of Cheatsheets</p>
+  
+  
+  <div class="additional">
+      <span>&copy;</span> 2016 <a href="http://hanhaishan.com">Haishan</a><br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a><br> Powered by <a href="https://hexo.io">Hexo</a>, theme using <a href="https://github.com/haishanh/hexo-theme-zxcvb">zxcvb</a>
+  </div>
+  
+</footer>
+<script src="/js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>iproute2 Command Cheatsheet | CNCS</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="alternate" href="atom.xml" type="application/atom+xml">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+  
+  
+  
+  
+  
+<header style="background-image:url('http://7fva40.com1.z0.glb.clouddn.com/cncs-iproute2.png'); background-size: 1234px 480px; background-position: center; background-repeat: no-repeat; background-color: #282a36; height: 450px;" class="with-bg">
+
+  <div class="wrapper clearfix">
+    
+<a href="/" class="site-title"><code>$_</code></a>
+
+    
+    <div class="menu"><span class="hamburger"><span></span></span></div>
+    <nav role="navigation" class="nav">
+      
+      <a href="/">Home</a>
+      
+      <a href="https://github.com/haishanh/cncs/">GitHub</a>
+      
+    </nav>
+    
+  </div>
+</header>
+<section class="main post">
+  <div class="wrapper clearfix">
+    <div class="post-header">
+      <h1 class="post-title">
+        
+          <a href="/iproute2-cheetsheet/">iproute2 Command Cheatsheet</a>
+        
+      </h1>
+      
+      <span class="post-meta">February 16, 2016</span>
+      
+    </div>
+    
+
+  
+
+
+<div class="side toc">
+  <div class="toc-title">In this page</div>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本语法"><span class="toc-text">基本语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iproute2命令都可以是用shorthand"><span class="toc-text">iproute2命令都可以是用shorthand</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Help"><span class="toc-text">Help</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Address"><span class="toc-text">Address</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Link"><span class="toc-text">Link</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Route"><span class="toc-text">Route</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Neighbor-ARP"><span class="toc-text">Neighbor/ARP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rule"><span class="toc-text">Rule</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Network-namespace"><span class="toc-text">Network namespace</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#veth-pair"><span class="toc-text">veth pair</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VXLAN"><span class="toc-text">VXLAN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contributors"><span class="toc-text">Contributors</span></a></li></ol>
+</div>
+    <div class="post-content">
+      <h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><p>ip命令基本上都可以描述成下面的形式。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ip [ OPTIONS ] OBJECT &#123; COMMAND | help &#125;</span><br></pre></td></tr></table></figure>
+<p>其中OBJECT可以是：</p>
+<ul>
+<li><code>addr</code></li>
+<li><code>list</code></li>
+<li><code>route</code></li>
+<li><code>rule</code></li>
+<li><code>neigh</code></li>
+<li><code>netns</code></li>
+<li><code>tunnel</code></li>
+<li><code>xfrm</code></li>
+<li>…</li>
+</ul>
+<h2 id="iproute2命令都可以是用shorthand"><a href="#iproute2命令都可以是用shorthand" class="headerlink" title="iproute2命令都可以是用shorthand"></a>iproute2命令都可以是用shorthand</h2><p>比如命令<code>ip addr</code>可以用<code>ip a</code>, <code>ip ad</code>或<code>ip add</code>。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ip r <span class="comment"># ip route</span></span><br><span class="line">ip a <span class="comment"># ip addr</span></span><br><span class="line">ip n <span class="comment"># ip neighbor</span></span><br><span class="line">ip l <span class="comment"># ip link</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="comment"># 常用的command操作也可以用shorthand</span></span><br><span class="line">ip a a 1.1.1.1/24 dev eth1 <span class="comment"># ip addr add 1.1.1.1/24 dev eth1</span></span><br><span class="line">ip a d 1.1.1.1/24 dev eth1 <span class="comment"># ip addr del 1.1.1.1/24 dev eth1</span></span><br><span class="line">ip a f dev eth1 <span class="comment"># ip addr flush dev eth1</span></span><br></pre></td></tr></table></figure>
+<h2 id="Help"><a href="#Help" class="headerlink" title="Help"></a>Help</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看ip命令帮助</span></span><br><span class="line">ip <span class="built_in">help</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看ip addr帮助</span></span><br><span class="line">ip addr <span class="built_in">help</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看ip link帮助</span></span><br><span class="line">ip link <span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+<h2 id="Address"><a href="#Address" class="headerlink" title="Address"></a>Address</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看所有interface上的地址</span></span><br><span class="line">ip addr</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看具体interface上的地址</span></span><br><span class="line">ip addr show eth1 <span class="comment"># ip addr ls eth1 或 ip addr ls dev eth1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加ipv4地址</span></span><br><span class="line">ip addr add 1.2.3.4/24 dev eth1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除ipv4地址</span></span><br><span class="line">ip addr del 1.2.3.4/24 dev eth1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清空eth1上的地址</span></span><br><span class="line">ip addr flush dev eth1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加ipv6地址</span></span><br><span class="line">ip addr add 2015:1:15::1/64 dev eth1</span><br></pre></td></tr></table></figure>
+<h2 id="Link"><a href="#Link" class="headerlink" title="Link"></a>Link</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看所以interface的link状态</span></span><br><span class="line">ip link</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看具体interface的link状态</span></span><br><span class="line">ip link show eth1 <span class="comment"># ip link ls eth1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># bring eth1 up</span></span><br><span class="line">ip link <span class="built_in">set</span> eth1 up</span><br><span class="line"></span><br><span class="line"><span class="comment"># bring eth1 down</span></span><br><span class="line">ip link <span class="built_in">set</span> eth1 down</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看具体interface的link数据(packets tx/rx drop/error)</span></span><br><span class="line">ip <span class="_">-s</span> link show dev eth1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置MTU</span></span><br><span class="line">ip link <span class="built_in">set</span> mtu 9000 dev eth1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改 interface 名字</span></span><br><span class="line">ip link <span class="built_in">set</span> dev tap2 name eth2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开混杂模式</span></span><br><span class="line">ip link <span class="built_in">set</span> promisc on dev eth1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在eth1上创建一个VLAN 100的VLAN端口</span></span><br><span class="line">ip link add link eth1 name eth1.100 <span class="built_in">type</span> vlan id 100</span><br></pre></td></tr></table></figure>
+<h2 id="Route"><a href="#Route" class="headerlink" title="Route"></a>Route</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看路由</span></span><br><span class="line">ip route</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加ipv4子网路由</span></span><br><span class="line">ip route add 1.2.3.0/24 dev eth1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加默认路由</span></span><br><span class="line">ip route add default via 1.2.3.1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据目的IP显示所选路由(很有用)</span></span><br><span class="line">ip route get 1.2.3.4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看table 10中的路由(如果不加table参数，默认查看的是table 254)</span></span><br><span class="line">ip route show table 10</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在table 10中添加路由</span></span><br><span class="line">ip route add 1.2.3.128/25 dev eth1 table 10</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看ipv6路由</span></span><br><span class="line">ip -6 route</span><br><span class="line"></span><br><span class="line"><span class="comment"># 填加ipv6路由</span></span><br><span class="line">ip route add 2016:1:16::1/64 dev eth1</span><br></pre></td></tr></table></figure>
+<h2 id="Neighbor-ARP"><a href="#Neighbor-ARP" class="headerlink" title="Neighbor/ARP"></a>Neighbor/ARP</h2><p>ip neighbor主要用于操作arp cache。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看arp cache</span></span><br><span class="line">ip neigh show</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看指定interface上的arp cache</span></span><br><span class="line">ip neigh show dev eth1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看指定网段的arp cache</span></span><br><span class="line">ip neigh show 1.2.3.0/24</span><br><span class="line"></span><br><span class="line"><span class="comment"># 清空指定interface上的arp cache</span></span><br><span class="line">ip neigh flush dev eth1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加一个arp条目</span></span><br><span class="line">ip neigh add 1.2.3.4 lladdr da:8b:56:d4:b5:4d dev eth0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除一个arp条目</span></span><br><span class="line">ip neigh del 1.2.3.4 lladdr da:8b:56:d4:b5:4d dev eth0</span><br><span class="line"></span><br><span class="line"><span class="comment"># see http://linux-ip.net/html/tools-ip-neighbor.html</span></span><br><span class="line"><span class="comment"># see http://man7.org/linux/man-pages/man8/ip-neighbour.8.html</span></span><br></pre></td></tr></table></figure>
+<h2 id="Rule"><a href="#Rule" class="headerlink" title="Rule"></a>Rule</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看rule</span></span><br><span class="line">ip rule</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加rule (1.2.3.0/24的数据包查看路由table 10)</span></span><br><span class="line">ip rule add from 1.2.3.0/24 lookup 10</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除rule</span></span><br><span class="line">ip rule del from 1.2.3.0/24 lookup 10</span><br></pre></td></tr></table></figure>
+<h2 id="Network-namespace"><a href="#Network-namespace" class="headerlink" title="Network namespace"></a>Network namespace</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 添加一个network namespace，叫ns1</span></span><br><span class="line">ip netns add ns1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把eth1放入namespace ns1中</span></span><br><span class="line"><span class="comment"># 注意，此时eth1的link状态和IP地址信息会丢失，需要重新设置</span></span><br><span class="line">ip link <span class="built_in">set</span> eth1 netns ns1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在namesapce ns1中 执行相应命令</span></span><br><span class="line">ip netns <span class="built_in">exec</span> ns1 ip link <span class="built_in">set</span> eth1 up</span><br><span class="line">ip netns <span class="built_in">exec</span> ns1 ip addr add 2.2.2.2/24 dev eth1</span><br><span class="line">ip netns <span class="built_in">exec</span> ns1 ping 2.2.2.1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将eth1移回默认的namespace</span></span><br><span class="line"><span class="comment"># netns后面可以使用namespace的名字作参数</span></span><br><span class="line"><span class="comment"># 也可以使用运行在该namespace中的某进程的PID坐参数</span></span><br><span class="line"><span class="comment"># 移回默认namespace可以使用init的PID(1)</span></span><br><span class="line">ip link <span class="built_in">exec</span> ns1 ip link <span class="built_in">set</span> eth1 netns 1</span><br><span class="line"></span><br><span class="line"><span class="comment">## More at https://lwn.net/Articles/580893/</span></span><br></pre></td></tr></table></figure>
+<h2 id="veth-pair"><a href="#veth-pair" class="headerlink" title="veth pair"></a>veth pair</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建veth对，名字分别为veth1和veth2</span></span><br><span class="line">ip link add name veth1 <span class="built_in">type</span> veth peer name veth2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把veth1和veth2分别放入namesapce ns1和ns2中</span></span><br><span class="line">ip netns add ns1</span><br><span class="line">ip netns add ns2</span><br><span class="line">ip link <span class="built_in">set</span> veth1 netns ns1</span><br><span class="line">ip link <span class="built_in">set</span> veth2 netns ns2</span><br></pre></td></tr></table></figure>
+<h2 id="VXLAN"><a href="#VXLAN" class="headerlink" title="VXLAN"></a>VXLAN</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># see https://www.kernel.org/doc/Documentation/networking/vxlan.txt</span></span><br><span class="line"><span class="comment"># 创建一个名为vxlan0的设备(组播)，使用组播地址239.1.1.1，eth1作为vxlan tunnel point，VXLAN使用端口4789</span></span><br><span class="line">ip link add vxlan0 <span class="built_in">type</span> vxlan id 42 group 239.1.1.1 dev eth1 dstport 4789</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个名为vxlan1的设备(单播)，本地使用地址10.10.10.1，远端使用地址10.10.10.2，eth1作为vxlan tunnel point，VXLAN使用端口4789</span></span><br><span class="line">ip link add vxlan1 <span class="built_in">type</span> vxlan id 44 remote 10.10.10.2 <span class="built_in">local</span> 10.10.10.1 dev eth1 dstport 4789</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Contributors"><a href="#Contributors" class="headerlink" title="Contributors"></a>Contributors</h2><p><a href="http://hanhaishan.com" target="_blank" rel="external">haishanh</a></p>
+
+    </div>
+    
+
+<div class="post-footer">
+  
+  Updated on 16/03/01
+</div>
+    
+<div class="post-buttons">
+  
+  
+    
+    <a href="https://github.com/haishanh/cncs/blob/master/source/_posts/iproute2-cheetsheet.md" target="_blank">Source</a>
+  
+</div>
+    
+  </div>
+  
+
+<div class="post-nav">
+<div style="height: 0; width: 0; position: absolute; visibility: hidden">
+  <!-- inject:svg --><svg xmlns="http://www.w3.org/2000/svg"><symbol id="ic_chevron_left_white_24px" viewBox="0 0 24 24">
+    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</symbol><symbol id="ic_chevron_right_white_24px" viewBox="0 0 24 24">
+    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</symbol></svg><!-- endinjected -->
+</div>
+  
+  
+    <a href="/ovs-ofctl-cs/" class="nav next">
+    NEXT<svg class="icon right"><use xlink:href="#ic_chevron_right_white_24px" /></svg></a>
+  
+</div>
+</section><footer>
+  
+  <h3>CNCS</h3>
+  
+  
+  <p>A Collection of Cheatsheets</p>
+  
+  
+  <div class="additional">
+      <span>&copy;</span> 2016 <a href="http://hanhaishan.com">Haishan</a><br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a><br> Powered by <a href="https://hexo.io">Hexo</a>, theme using <a href="https://github.com/haishanh/hexo-theme-zxcvb">zxcvb</a>
+  </div>
+  
+</footer>
+<script src="/js/script.js"></script>
+</body>
+</html>
