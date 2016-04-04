@@ -109,9 +109,9 @@ iptables -Z INPUT
 
  * `-N / --new-chain`
 
-···sh
+```sh
 iptables -N allowed
-···
+```
 
 用于创建一个新的 chain。上面的例子中创建了一个名字叫 *allowed* 的 chain。
 
