@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>iptables | CNCS</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="alternate" href="atom.xml" type="application/atom+xml">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<header>
+
+  <div class="wrapper clearfix">
+    
+<a href="/" class="site-title"><code>$_</code></a>
+
+    
+    <div class="menu"><span class="hamburger"><span></span></span></div>
+    <nav role="navigation" class="nav">
+      
+      <a href="/">Home</a>
+      
+      <a href="https://github.com/haishanh/cncs/">GitHub</a>
+      
+    </nav>
+    
+  </div>
+</header>
+<section class="main post">
+  <div class="wrapper clearfix">
+    <div class="post-header">
+      <h1 class="post-title">
+        
+          <a href="/iptables/">iptables</a>
+        
+      </h1>
+      
+      <span class="post-meta">February 1, 2016</span>
+      
+    </div>
+    
+
+  
+
+
+<div class="side toc">
+  <div class="toc-title">In this page</div>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本语法"><span class="toc-text">基本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#table"><span class="toc-text">table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Command"><span class="toc-text">Command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Options"><span class="toc-text">Options</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#匹配规则"><span class="toc-text">匹配规则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通用匹配-Generic-Match"><span class="toc-text">通用匹配 Generic Match</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐式匹配-Implicit-Match"><span class="toc-text">隐式匹配 Implicit Match</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP-匹配"><span class="toc-text">TCP 匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UDP-匹配"><span class="toc-text">UDP 匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ICMP-匹配"><span class="toc-text">ICMP 匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SCTP-匹配"><span class="toc-text">SCTP 匹配</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显式匹配-Explicit-Match"><span class="toc-text">显式匹配 Explicit Match</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#addrtype"><span class="toc-text">addrtype</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Examples"><span class="toc-text">Examples</span></a></li></ol>
+</div>
+    <div class="post-content">
+      <div class="admonition critical"><p class="admonition-title">本文还未完成</p><p>编写中...</p></div>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p><strong>iptabels</strong> is a userspace application used to configure the firewall(netfilter) in Linux kernel.</p>
+<p><strong>iptables</strong> 是一个用来配置 Linux kernel 中 firewall(netfilter) 的一个工具。</p>
+<h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">iptables [-t table] command [match] [target/jump]</span><br></pre></td></tr></table></figure>
+<p><code>[match] [target/jump]</code>在一起构成一条规则<code>rule</code></p>
+<h3 id="table"><a href="#table" class="headerlink" title="table"></a>table</h3><p><code>-t</code> 选项可以指定当前命令作用的 <code>table</code>。</p>
+<p>其中<code>table</code>可以是：</p>
+<ul>
+<li><code>nat</code></li>
+<li><code>mangle</code></li>
+<li><code>filter</code></li>
+<li><code>raw</code></li>
+</ul>
+<p><strong>注意</strong>：如果不使用<code>-t</code>选项，则默认是<code>filter</code> table，相当于<code>-t filter</code>。</p>
+<p> <code>nat</code> table，主要用于NAT(Natwork Address Translation)。对于一个stream，只有其中的第一个包才会从经过一次这个 table，该 stream 中后续的数据包会自动使用第一个数据包的规则，不会再经过这个 table。比如你 ping 一个主机10个数据包，查看 iptables 的时候，你只能看到第一个数据包匹配了这个规则。所以我们不应该在这个 table 中设置过滤(filtering)相关的规则。</p>
+<p> <code>mangle</code> table，主要用于修改(mangling)数据包。我们可以修改包头(header)和负载(payload)。比如说修改TTL, TOS等。</p>
+<p> <code>filter</code> table，用于对过滤数据包。比如可以<code>DROP</code>, <code>LOG</code>, <code>ACCEPT</code> 或者 <code>REJECT</code> 特定类型的数据。</p>
+<p> <code>raw</code> table 比较特殊。<code>netfilter</code> 以及其中的 chains 会在其他任何 table 之前被应用。它主要用于<code>NOTRACK</code> <em>target</em>。</p>
+<h3 id="Command"><a href="#Command" class="headerlink" title="Command"></a>Command</h3><p>有以下 command， 要注意如果不指定 table，则默认作用于 table <code>filter</code>。</p>
+<ul>
+<li><code>-A / --append</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT ...</span><br></pre></td></tr></table></figure>
+<p>用于在一条 chain 后面追加一个 rule。</p>
+<ul>
+<li><code>-D / --delete</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -D INPUT --dport 80 -j DROP</span><br><span class="line">iptables -D INPUT 1</span><br></pre></td></tr></table></figure>
+<p>用于删除指定 chain 中的指定 rule。删除的时候，可以写出待删除 rule 的完整 rule 语法来删除，也可以通过指定 chain 中 rule 的序号来删除。</p>
+<ul>
+<li><code>-R / --replace</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -R INPUT 1 <span class="_">-s</span> 192.168.0.1 -j DROP</span><br></pre></td></tr></table></figure>
+<p>用于替换指定 chain 中的指定 rule。</p>
+<ul>
+<li><code>-I / --insert</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -I INPUT 2 --dport 80 -j ACCEPT</span><br><span class="line">iptables -I INPUT --dport 80 -j ACCEPT</span><br></pre></td></tr></table></figure>
+<p>用于在指定 chain 中插入一条 rule。可以通过指定rule序号来选择插入位置，新 rule 会插入到指定序号的 rule 之前，其实新 rule 插入后，其序号也就是命令中指定的那个序号。比如上面第一个例子中，会把这条 rule 变成<code>INPUT</code> chain 的第2条 rule，其后续的 rule 的序号会顺延。如果该命令不指定序号，则插入到该 chain 的最前面。</p>
+<ul>
+<li><code>-L / --list</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -L INPUT</span><br></pre></td></tr></table></figure>
+<p>用于列出指定 chain 中的rule条目。如果不指定 chain 则定出指定 table 中的所有 chain 的所有 rule。</p>
+<ul>
+<li><code>-F / --flush</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -F INPUT</span><br></pre></td></tr></table></figure>
+<p>用于清空指定 chain 中的所有 rule。</p>
+<ul>
+<li><code>-Z / --zero</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -Z INPUT</span><br></pre></td></tr></table></figure>
+<p>用于将指定 china 中的 counter 全部清0.</p>
+<ul>
+<li><code>-N / --new-chain</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -N allowed</span><br></pre></td></tr></table></figure>
+<p>用于创建一个新的 chain。上面的例子中创建了一个名字叫 <em>allowed</em> 的 chain。</p>
+<ul>
+<li><code>-X / --delete-chain</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -X allowed</span><br></pre></td></tr></table></figure>
+<p>用于删除一个 chain。</p>
+<ul>
+<li><code>-P / --policy</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -P INPUT DROP</span><br></pre></td></tr></table></figure>
+<p>用于设置指定 chain 的默认 policy。 对于不匹配一个 chain 中所有规则的数据包，则会使用默认 policy。目前可以是<code>DROP</code>和<code>ACCEPT</code>。</p>
+<ul>
+<li><code>-E / --rename-chain</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -E allowed disallowed</span><br></pre></td></tr></table></figure>
+<p>用于重命名一个 chain。</p>
+<h3 id="Options"><a href="#Options" class="headerlink" title="Options"></a>Options</h3><p><code>-v / --verbose</code></p>
+<p>显示详细。通常和<code>-L</code>一起使用，可以显示每条 rule 匹配的包数目，字节数等。</p>
+<p><code>-x / --exact</code></p>
+<p>与<code>-L</code>一起使用，用于将带有<code>K</code>, <code>M</code> 或者 <code>G</code> 的数展开。</p>
+<p><code>-n / --numeric</code></p>
+<p>与<code>-L</code>一起使用。使用该选项后，IP 地址和端口号会打印出数字值，而不是主机名，端口应用名等。</p>
+<h2 id="匹配规则"><a href="#匹配规则" class="headerlink" title="匹配规则"></a>匹配规则</h2><h3 id="通用匹配-Generic-Match"><a href="#通用匹配-Generic-Match" class="headerlink" title="通用匹配 Generic Match"></a>通用匹配 Generic Match</h3><ul>
+<li><code>-p / --protocol</code></li>
+</ul>
+<p>匹配指定协议，其参数可以是<code>tcp</code>, <code>udp</code>, <code>icmp</code>. 另外，可以是用<code>!</code>符号作反向方向操作，比如<code>-p ! tcp</code>表示匹配不是 TCP 的数据包。</p>
+<ul>
+<li><code>-s / --src / --source</code> &amp;&amp; <code>-d / --dst / --destination</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-s 192.168.1.2</span><br><span class="line">-s 192.168.1.0/24</span><br><span class="line">-s 192.168.1.0/255.255.255.0</span><br><span class="line">-s ! 192.168.1.0/24</span><br></pre></td></tr></table></figure>
+<p>匹配源/目的 IP 地址。 可以使用子网掩码来指定网段。 可以使用<code>!</code>。</p>
+<div class="admonition note"><p class="admonition-title">Note</p><p>iptables 中很多匹配选项中可以使用&quot;!&quot;符号来作反向作用。比如 `-s ! 192.168.1.0/24` 匹配不是从 192.168.1.0/24 网段来源的数据包。</p></div>
+<ul>
+<li><code>-i / --in-interface</code> &amp;&amp; <code>-o / --out-interface</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-i eth4</span><br><span class="line">-i eth4+   # 匹配以eth4开头的端口，比如eth4.1</span><br><span class="line">-i eth+    # 匹配所有的eth设备</span><br><span class="line">-i ! eth0</span><br></pre></td></tr></table></figure>
+<p>匹配使用指定端口进行接收(<code>-i</code>) 和发送(<code>-o</code>) 的数据包。 注意， <code>-i</code>匹配只能在<code>INPUT</code> <code>FORWARD</code> 和 <code>PREROUTING</code> chains 中使用，<code>-o</code>匹配只能在 <code>OUTPUT</code> <code>FORWARD</code> 和 <code>POSTROUTING</code> chains中使用, 它们在其他 chain 中使用会报错。在指定端口的字符串中可以附加<code>+</code>符号，来匹配任意字母和数字，见例子。可以使用<code>!</code>。</p>
+<ul>
+<li><code>-f / --fragment</code></li>
+</ul>
+<p>用于匹配分片数据包中第二，第三片。不带参数。有这个匹配的原因，就是因为对于分片数据包没办法去识别源和目的IP地址，或是不是ICMP等数据包。该选项也可以使用<code>!</code>，但需要注意的是<code>!</code>要放在选项之前，也就是<code>! -f</code>。表示匹配分片数据包的第一个数据包，或者所有没有被分片的数据包。<br> —&gt; to here</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">-p, --protocol</span><br><span class="line">tcp, udp, icmp</span><br><span class="line"></span><br><span class="line"><span class="_">-s</span>, --src, --source</span><br><span class="line">192.168.1.1</span><br><span class="line"></span><br><span class="line"><span class="_">-d</span>, --dst, --destination</span><br><span class="line">192.168.1.1</span><br><span class="line"></span><br><span class="line">-i, --in-interface</span><br><span class="line">eth1, eth4+</span><br><span class="line"></span><br><span class="line">-o, --out-interface</span><br><span class="line">eth1, eth4+</span><br></pre></td></tr></table></figure>
+<h3 id="隐式匹配-Implicit-Match"><a href="#隐式匹配-Implicit-Match" class="headerlink" title="隐式匹配 Implicit Match"></a>隐式匹配 Implicit Match</h3><h4 id="TCP-匹配"><a href="#TCP-匹配" class="headerlink" title="TCP 匹配"></a>TCP 匹配</h4><p>以下匹配用于匹配TCP数据包中的字段，所以在各选项之前要先使用<code>-p tcp</code>。</p>
+<ul>
+<li><code>--sport / --source-port</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p tcp --sport 22</span><br><span class="line">iptables -A INPUT -p tcp --sport ssh</span><br><span class="line">iptables -A INPUT -p tcp --sport 22:80</span><br><span class="line">iptables -A INPUT -p tcp --sport ! 22</span><br><span class="line">iptables -A INPUT -p tcp --sport ! 22:80</span><br></pre></td></tr></table></figure>
+<p>用于基于源端口匹配数据包。可以使用数字形式，也可以使用服务名。如果使用服务名的话，服务名和端口号的映射必须已经存在于文件<code>/etc/services</code>中。参数也可以使用一个范围，比如<code>--sport 22:80</code>，表示匹配所有源端口在22和80之间的数据包。如果省略了第一个端口号，如<code>--sport :80</code>，则默认第一个端口号为0。如果省略了第二个端口号，如<code>--sport 22:</code>，则默认第二个端口号为65535。该选项也可以使用<code>!</code>符号，比如<code>---source-port ! 22</code>表示匹配22端口之外的数据包，<code>--source-port ! 22-80</code>表示匹配源端口在22至80之外的数据包。</p>
+<ul>
+<li><code>--dport / --destination-port</code></li>
+</ul>
+<p>用于基于目的端口匹配数据包。用法和<code>--sport</code>一样。</p>
+<ul>
+<li><code>--tcp-flags</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -p tcp --tcp-flags SYN,FIN,ACK SYN,ACK</span><br><span class="line">iptables -p tcp --tcp-flags ! SYN,FIN,ACK SYN</span><br></pre></td></tr></table></figure>
+<p>用于匹配 TCP 数据包中的 flag 标志位。 该选型参数是2个list，第1个list是表示要作检查和比较的 TCP flag， 第2个list中包含置1的flag。 这2个list之间用空 格隔开， 2个list中的 flag  之间用英文逗号隔开，逗号前后无空格。可用的 flag有 <code>SYN</code>, <code>ACK</code>, <code>FIN</code>, <code>RST</code>, <code>URG</code>, <code>PSH</code>。除了这些常规 TCP flag 外，也可以使用 <code>ALL</code> 和 <code>NONE</code>。 <code>ALL</code>表示使用所有的 flag， <code>NONE</code>表示不使用任何 flag。所以<code>--tcp-flags ALL NONE</code>表示检查所有TCP flag标志位， 匹配没有设置任何表示位的数据包。该选项可以使用<code>!</code>符号，<code>--tcp-flags ! SYN,FIN,ACK SYN</code>表示匹配设置了 ACK 和 FIN， 但<strong>没有</strong>设置 SYN 的数据包。</p>
+<ul>
+<li><code>--syn</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -p tcp --syn</span><br><span class="line">iptables -p tcp ! --syn</span><br></pre></td></tr></table></figure>
+<p>该选项的存在是为了向后兼容。 使用该选项的效果于使用<code>--tcp-flags SYN,RST,ACK SYN</code>一致， 即匹配设置了 SYN，但没有设置 ACK 和 RST 的 TCP 数据包。</p>
+<ul>
+<li><code>--tcp-option</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -p tcp --tcp-option 16</span><br></pre></td></tr></table></figure>
+<p>基于TCP 选项进行匹配。十进制。可以使用<code>!</code>，表示匹配除了除了给定选项外的其他所有选项。</p>
+<h4 id="UDP-匹配"><a href="#UDP-匹配" class="headerlink" title="UDP 匹配"></a>UDP 匹配</h4><ul>
+<li><code>--sport / --source-port</code> 和 <code>--dport / --destination-port</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p udp --sport 53</span><br><span class="line">iptables -A INPUT -p udp --dport 53</span><br></pre></td></tr></table></figure>
+<p>使用方法于 TCP 中的同名选项一致。</p>
+<h4 id="ICMP-匹配"><a href="#ICMP-匹配" class="headerlink" title="ICMP 匹配"></a>ICMP 匹配</h4><ul>
+<li><code>--icmp-type</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p icmp --icmp-type 8</span><br><span class="line">iptables -A INPUT -p icmp --icmp-type ！ 8</span><br><span class="line">iptables -A INPUT -p icmp --icmp-type <span class="built_in">echo</span>-reply</span><br></pre></td></tr></table></figure>
+<p>用于 ICMP 数据包头的 ICMP 类型进行匹配。 可以使用数字或字符名称。也可以使用<code>!</code>符号。具体可使用的icmp type列表可以运行<code>iptables -p icmp --help</code>来查看。</p>
+<h4 id="SCTP-匹配"><a href="#SCTP-匹配" class="headerlink" title="SCTP 匹配"></a>SCTP 匹配</h4><ul>
+<li><code>--sport / --source-port</code> 和 <code>-dport / --destination-port</code></li>
+</ul>
+<p>使用方法于 TCP UDP 中的同名选项一致。</p>
+<ul>
+<li><code>--chunk-type</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p sctp --chunk-types any INIT,INIT_ACK</span><br></pre></td></tr></table></figure>
+<p>用于匹配 SCTP 中的 chunk type。第一个参数可以是<code>all</code>, <code>any</code> 或 <code>none</code>，第二个参数中是逗号分隔的chunk type 名字。第一个参数是<code>all</code>即表示匹配第二个参数中的所有type，第一个参数是<code>any</code>表示匹配第二参数中的某一个或多个，第一个参数是<code>none</code>表示不匹配第二个参数中的所有type。</p>
+<h3 id="显式匹配-Explicit-Match"><a href="#显式匹配-Explicit-Match" class="headerlink" title="显式匹配 Explicit Match"></a>显式匹配 Explicit Match</h3><h4 id="addrtype"><a href="#addrtype" class="headerlink" title="addrtype"></a>addrtype</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">addrtype</span><br><span class="line">-m addrtype –-src-type</span><br><span class="line">-m addrtype –dst-type</span><br><span class="line">UNICAST, BROADCAST, MULTICAST…</span><br><span class="line">AH/ESP</span><br><span class="line">-p 51 –m ah –-ahspi</span><br><span class="line">-p 50 –m esp –-espspi</span><br><span class="line">500 //Security Parameter Index</span><br><span class="line">Comment</span><br><span class="line">-m comment –-comment</span><br><span class="line">“This is a comment”</span><br><span class="line"></span><br><span class="line">DSCP</span><br><span class="line">-m dscp –-dscp</span><br><span class="line">32</span><br><span class="line">-m dscp –dscp-class</span><br><span class="line">  BE, EF…</span><br><span class="line">ECN</span><br><span class="line">-m ecn –-ecn-tcp-cwr</span><br><span class="line">//match packets <span class="built_in">set</span> bit:Congestion Window Received</span><br><span class="line">TOS</span><br><span class="line">-m tos –-tos</span><br><span class="line">0x16</span><br><span class="line">TTL</span><br><span class="line">-m ttl –-ttl<span class="_">-eq</span></span><br><span class="line">-m ttl –-ttl<span class="_">-gt</span></span><br><span class="line">-m ttl --ttl<span class="_">-lt</span></span><br><span class="line">64</span><br><span class="line"></span><br><span class="line">Length</span><br><span class="line">-m length –-length</span><br><span class="line">1400:1500, 1500</span><br><span class="line">Limit</span><br><span class="line">-m <span class="built_in">limit</span> –-limit</span><br><span class="line">3/hour, 10/day</span><br><span class="line">-m <span class="built_in">limit</span> –-limit-burst</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
+<h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -I INPUT <span class="_">-s</span> 172.24.220.56 -p icmp --icmp-type <span class="built_in">echo</span>-request -j REJECT --reject-with icmp-host-prohibited</span><br><span class="line">iptables –L INPUT –v</span><br><span class="line">iptables –L INPUT –v --line-numbers</span><br><span class="line">iptables -I INPUT <span class="_">-s</span> 172.24.220.56 -p icmp --icmp-type <span class="built_in">echo</span>-request -m <span class="built_in">limit</span> --limit 6/minute --limit-burst 5 -j ACCEPT</span><br><span class="line">iptables -R INPUT 2 <span class="_">-s</span> 172.24.220.56 -p icmp --icmp-type <span class="built_in">echo</span>-request -j REJECT --reject-with icmp-host-unreachable</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">iptables –t nat -A PREROUTING -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 8000</span><br></pre></td></tr></table></figure>
+    </div>
+    
+
+<div class="post-footer">
+  
+  Updated on 16/04/01
+</div>
+    
+<div class="post-buttons">
+  
+  
+    
+    <a href="https://github.com/haishanh/cncs/blob/master/source/_posts/iptables.md" target="_blank">Source</a>
+  
+</div>
+    
+  </div>
+  
+
+<div class="post-nav">
+<div style="height: 0; width: 0; position: absolute; visibility: hidden">
+  <!-- inject:svg --><svg xmlns="http://www.w3.org/2000/svg"><symbol id="ic_chevron_left_white_24px" viewBox="0 0 24 24">
+    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</symbol><symbol id="ic_chevron_right_white_24px" viewBox="0 0 24 24">
+    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</symbol></svg><!-- endinjected -->
+</div>
+  
+    <a href="/iproute2/" class="nav prev">
+    <svg class="icon left"><use xlink:href="#ic_chevron_left_white_24px" /></svg>PREVIOUS</a>
+  
+  
+    <a href="/ovs-ofctl-cs/" class="nav next">
+    NEXT<svg class="icon right"><use xlink:href="#ic_chevron_right_white_24px" /></svg></a>
+  
+</div>
+</section><footer>
+  
+  <h3>CNCS</h3>
+  
+  
+  <p>A Collection of Cheatsheets</p>
+  
+  
+  <div class="additional">
+      <span>&copy;</span> 2016 <a href="http://hanhaishan.com">Haishan</a><br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a><br> Powered by <a href="https://hexo.io">Hexo</a>, theme using <a href="https://github.com/haishanh/hexo-theme-zxcvb">zxcvb</a>
+  </div>
+  
+</footer>
+<script src="/js/script.js"></script>
+</body>
+</html>
