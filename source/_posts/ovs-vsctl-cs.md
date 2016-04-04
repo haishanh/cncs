@@ -1,5 +1,5 @@
 ---
-title: Open vSwitch ovs-vsctl Command Sheatsheet
+title: Open vSwitch ovs-vsctl
 date: 2016-01-15
 updated: 2016-03-01
 banner:

@@ -1,5 +1,5 @@
 ---
-title: iproute2 Command Cheatsheet
+title: iproute2
 date: 2016-02-16
 updated: 2016-03-01
 banner:

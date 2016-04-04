@@ -1,5 +1,5 @@
 ---
-title: Open vSwitch ovs-ofctl Command Cheatsheet
+title: Open vSwitch ovs-ofctl
 date: 2016-01-15
 updated: 2016-03-01
 banner:
