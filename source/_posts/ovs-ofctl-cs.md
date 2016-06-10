@@ -2,6 +2,8 @@
 title: Open vSwitch ovs-ofctl
 date: 2016-01-15
 updated: 2016-03-01
+author:
+  - haishanh
 banner:
   image: http://carlog.qiniudn.com/ovs-ofctl.png
   size: 1000px 172px
@@ -513,11 +515,3 @@ ovs-ofctl del-flows br0 cookie=0xf/-1
 # trace a flow
 ovs-appctl ofproto/trace br0 tcp,tcp_dst=22
 ```
-
----
-
-## Contributors
-
-[haishanh][haishanh]
-
-[haishanh]: http://hanhaishan.com

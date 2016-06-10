@@ -2,6 +2,8 @@
 title: Open vSwitch ovs-vsctl
 date: 2016-01-15
 updated: 2016-03-01
+author:
+  - haishanh
 banner:
   image: http://carlog.qiniudn.com/ovs-vsctl2.png
   size: 1000px 540px
@@ -225,11 +227,3 @@ OpenFlow的端口 id 在设置 flow 的匹配字段 in_port 以及 actions 字�
 ```sh
 ovs-vsctl set bridge br0 protocols=OpenFlow10,OpenFlow12,OpenFlow13
 ```
-
----
-
-## Contributors
-
-[haishanh][haishanh]
-
-[haishanh]: http://hanhaishan.com

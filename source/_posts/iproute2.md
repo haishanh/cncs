@@ -2,12 +2,8 @@
 title: iproute2
 date: 2016-02-16
 updated: 2016-03-01
-banner:
-  image: http://7fva40.com1.z0.glb.clouddn.com/cncs-iproute2.png
-  size: 1234px 480px
-  position: center
-  color: '#282a36'
-  height: 450px
+author:
+  - haishanh
 ---
 
 ## 基本语法
@@ -229,11 +225,3 @@ ip link add vxlan0 type vxlan id 42 group 239.1.1.1 dev eth1 dstport 4789
 # 创建一个名为vxlan1的设备(单播)，本地使用地址10.10.10.1，远端使用地址10.10.10.2，eth1作为vxlan tunnel point，VXLAN使用端口4789
 ip link add vxlan1 type vxlan id 44 remote 10.10.10.2 local 10.10.10.1 dev eth1 dstport 4789
 ```
-
----
-
-## Contributors
-
-[haishanh][haishanh]
-
-[haishanh]: http://hanhaishan.com
