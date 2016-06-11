@@ -32,10 +32,10 @@
   // <header> nav -> responsive
 
   var burger = $('.hamburger');
+  var headerNav = $('.nav');
   burger.addEventListener('click', function (ev) {
     burger.classList.toggle('toggle');
-    var nav = $('nav');
-    nav.classList.toggle('toggle');
+    headerNav.classList.toggle('toggle');
   });
 
   // STICK TOC

@@ -1,61 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>iproute2 | CNCS</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="alternate" href="atom.xml" type="application/atom+xml">
-  <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-
-  
-  
-  
-  
-  
-<header style="background-image:url('http://7fva40.com1.z0.glb.clouddn.com/cncs-iproute2.png'); background-size: 1234px 480px; background-position: center; background-repeat: no-repeat; background-color: #282a36; height: 450px;" class="with-bg">
-
-  <div class="wrapper clearfix">
-    
-<a href="/" class="site-title"><code>$_</code></a>
-
-    
-    <div class="menu"><span class="hamburger"><span></span></span></div>
-    <nav role="navigation" class="nav">
-      
-      <a href="/">Home</a>
-      
-      <a href="https://github.com/haishanh/cncs/">GitHub</a>
-      
-    </nav>
-    
-  </div>
-</header>
-<section class="main post">
-  <div class="wrapper clearfix">
-    <div class="post-header">
-      <h1 class="post-title">
-        
-          <a href="/iproute2/">iproute2</a>
-        
-      </h1>
-      
-      <span class="post-meta">February 16, 2016</span>
-      
-    </div>
-    
-
-  
-
-
-<div class="side toc">
-  <div class="toc-title">In this page</div>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本语法"><span class="toc-text">基本语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iproute2命令都可以是用shorthand"><span class="toc-text">iproute2命令都可以是用shorthand</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Help"><span class="toc-text">Help</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Address"><span class="toc-text">Address</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Link"><span class="toc-text">Link</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Route"><span class="toc-text">Route</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Neighbor-ARP"><span class="toc-text">Neighbor/ARP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rule"><span class="toc-text">Rule</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Network-namespace"><span class="toc-text">Network namespace</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#veth-pair"><span class="toc-text">veth pair</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VXLAN"><span class="toc-text">VXLAN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contributors"><span class="toc-text">Contributors</span></a></li></ol>
-</div>
-    <div class="post-content">
-      <h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><p>ip命令基本上都可以描述成下面的形式。</p>
+<!DOCTYPE html><html><head><title>iproute2 | CNCS</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="alternate" href="atom.xml" type="application/atom+xml"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.css" type="text/css"></head><body><header style="height:150px;background-image:url(http://7fva40.com1.z0.glb.clouddn.com/starry-night.jpg);background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#333" class="with-bg"><div class="wrapper"><a href="/" class="site-title"><code>$_</code></a><div class="menu"><span class="hamburger"><span></span></span></div><nav role="navigation" class="nav"><a href="/">Home</a><a href="https://github.com/haishanh/cncs/">GitHub</a><a href="/about/">About</a></nav></div></header><section class="main post"><div class="wrapper clearfix"><div class="post-header"><h2 class="post-title"><a href="/iproute2/">iproute2</a></h2><time datetime="2016-02-15T16:00:00.000Z">February 16, 2016</time></div><div class="side toc"><div class="toc-title">In this page</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#基本语法"><span class="toc-text">基本语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#iproute2命令都可以是用shorthand"><span class="toc-text">iproute2命令都可以是用shorthand</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Help"><span class="toc-text">Help</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Address"><span class="toc-text">Address</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Link"><span class="toc-text">Link</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Route"><span class="toc-text">Route</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Neighbor-ARP"><span class="toc-text">Neighbor/ARP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Rule"><span class="toc-text">Rule</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Network-namespace"><span class="toc-text">Network namespace</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#veth-pair"><span class="toc-text">veth pair</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VXLAN"><span class="toc-text">VXLAN</span></a></li></ol></div><div class="post-content"><h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><p>ip命令基本上都可以描述成下面的形式。</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">ip [ OPTIONS ] OBJECT &#123; COMMAND | help &#125;</span><br></pre></td></tr></table></figure>
 <p>其中OBJECT可以是：</p>
 <ul>
@@ -80,31 +23,7 @@
 <h2 id="Rule"><a href="#Rule" class="headerlink" title="Rule"></a>Rule</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看rule</span></span><br><span class="line">ip rule</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加rule (1.2.3.0/24的数据包查看路由table 10)</span></span><br><span class="line">ip rule add from 1.2.3.0/24 lookup 10</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除rule</span></span><br><span class="line">ip rule del from 1.2.3.0/24 lookup 10</span><br></pre></td></tr></table></figure>
 <h2 id="Network-namespace"><a href="#Network-namespace" class="headerlink" title="Network namespace"></a>Network namespace</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 添加一个network namespace，叫ns1</span></span><br><span class="line">ip netns add ns1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把eth1放入namespace ns1中</span></span><br><span class="line"><span class="comment"># 注意，此时eth1的link状态和IP地址信息会丢失，需要重新设置</span></span><br><span class="line">ip link <span class="built_in">set</span> eth1 netns ns1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 在namesapce ns1中 执行相应命令</span></span><br><span class="line">ip netns <span class="built_in">exec</span> ns1 ip link <span class="built_in">set</span> eth1 up</span><br><span class="line">ip netns <span class="built_in">exec</span> ns1 ip addr add 2.2.2.2/24 dev eth1</span><br><span class="line">ip netns <span class="built_in">exec</span> ns1 ping 2.2.2.1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将eth1移回默认的namespace</span></span><br><span class="line"><span class="comment"># netns后面可以使用namespace的名字作参数</span></span><br><span class="line"><span class="comment"># 也可以使用运行在该namespace中的某进程的PID坐参数</span></span><br><span class="line"><span class="comment"># 移回默认namespace可以使用init的PID(1)</span></span><br><span class="line">ip link <span class="built_in">exec</span> ns1 ip link <span class="built_in">set</span> eth1 netns 1</span><br><span class="line"></span><br><span class="line"><span class="comment">## More at https://lwn.net/Articles/580893/</span></span><br></pre></td></tr></table></figure>
 <h2 id="veth-pair"><a href="#veth-pair" class="headerlink" title="veth pair"></a>veth pair</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建veth对，名字分别为veth1和veth2</span></span><br><span class="line">ip link add name veth1 <span class="built_in">type</span> veth peer name veth2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把veth1和veth2分别放入namesapce ns1和ns2中</span></span><br><span class="line">ip netns add ns1</span><br><span class="line">ip netns add ns2</span><br><span class="line">ip link <span class="built_in">set</span> veth1 netns ns1</span><br><span class="line">ip link <span class="built_in">set</span> veth2 netns ns2</span><br></pre></td></tr></table></figure>
-<h2 id="VXLAN"><a href="#VXLAN" class="headerlink" title="VXLAN"></a>VXLAN</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># see https://www.kernel.org/doc/Documentation/networking/vxlan.txt</span></span><br><span class="line"><span class="comment"># 创建一个名为vxlan0的设备(组播)，使用组播地址239.1.1.1，eth1作为vxlan tunnel point，VXLAN使用端口4789</span></span><br><span class="line">ip link add vxlan0 <span class="built_in">type</span> vxlan id 42 group 239.1.1.1 dev eth1 dstport 4789</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个名为vxlan1的设备(单播)，本地使用地址10.10.10.1，远端使用地址10.10.10.2，eth1作为vxlan tunnel point，VXLAN使用端口4789</span></span><br><span class="line">ip link add vxlan1 <span class="built_in">type</span> vxlan id 44 remote 10.10.10.2 <span class="built_in">local</span> 10.10.10.1 dev eth1 dstport 4789</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="Contributors"><a href="#Contributors" class="headerlink" title="Contributors"></a>Contributors</h2><p><a href="http://hanhaishan.com" target="_blank" rel="external">haishanh</a></p>
-
-    </div>
-    
-
-<div class="post-footer">
-  
-  Updated on 16/03/01
-</div>
-    
-<div class="post-buttons">
-  
-  
-    
-    <a href="https://github.com/haishanh/cncs/blob/master/source/_posts/iproute2.md" target="_blank">Source</a>
-  
-</div>
-    
-  </div>
-  
-
-<div class="post-nav">
-<div style="height: 0; width: 0; position: absolute; visibility: hidden">
+<h2 id="VXLAN"><a href="#VXLAN" class="headerlink" title="VXLAN"></a>VXLAN</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># see https://www.kernel.org/doc/Documentation/networking/vxlan.txt</span></span><br><span class="line"><span class="comment"># 创建一个名为vxlan0的设备(组播)，使用组播地址239.1.1.1，eth1作为vxlan tunnel point，VXLAN使用端口4789</span></span><br><span class="line">ip link add vxlan0 <span class="built_in">type</span> vxlan id 42 group 239.1.1.1 dev eth1 dstport 4789</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个名为vxlan1的设备(单播)，本地使用地址10.10.10.1，远端使用地址10.10.10.2，eth1作为vxlan tunnel point，VXLAN使用端口4789</span></span><br><span class="line">ip link add vxlan1 <span class="built_in">type</span> vxlan id 44 remote 10.10.10.2 <span class="built_in">local</span> 10.10.10.1 dev eth1 dstport 4789</span><br></pre></td></tr></table></figure></div><div class="post-footer">By haishanh, Updated on 16/03/01</div><div class="post-author"><a href="http://hanhaishan.com"><img src="https://avatars0.githubusercontent.com/u/1166872?v=3" alt="Haishan"><span class="tooltip-arrow"></span><span class="tooltip">Haishan</span></a></div><div class="post-buttons"><a href="https://github.com/haishanh/cncs/blob/master/source/_posts/iproute2.md" target="_blank">Source</a></div></div><div class="post-nav"><div style="height: 0; width: 0; position: absolute; visibility: hidden">
   <!-- inject:svg --><svg xmlns="http://www.w3.org/2000/svg"><symbol id="ic_chevron_left_white_24px" viewBox="0 0 24 24">
     <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
     <path d="M0 0h24v24H0z" fill="none"/>
@@ -112,26 +31,4 @@
     <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
     <path d="M0 0h24v24H0z" fill="none"/>
 </symbol></svg><!-- endinjected -->
-</div>
-  
-  
-    <a href="/iptables/" class="nav next">
-    NEXT<svg class="icon right"><use xlink:href="#ic_chevron_right_white_24px" /></svg></a>
-  
-</div>
-</section><footer>
-  
-  <h3>CNCS</h3>
-  
-  
-  <p>A Collection of Cheatsheets</p>
-  
-  
-  <div class="additional">
-      <span>&copy;</span> 2016 <a href="http://hanhaishan.com">Haishan</a><br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a><br> Powered by <a href="https://hexo.io">Hexo</a>, theme using <a href="https://github.com/haishanh/hexo-theme-zxcvb">zxcvb</a>
-  </div>
-  
-</footer>
-<script src="/js/script.js"></script>
-</body>
-</html>
+</div><a href="/qemu/" class="nav prev"><svg class="icon left"><use xlink:href="#ic_chevron_left_white_24px"></use></svg>PREVIOUS</a><a href="/iptables/" class="nav next">NEXT<svg class="icon right"><use xlink:href="#ic_chevron_right_white_24px"></use></svg></a></div></section><footer><h3>CNCS</h3><p>A Collection of Cheatsheets</p><div class="additional"><span>&copy;</span> 2016 <a href="http://hanhaishan.com">Haishan</a><br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a><br> Powered by <a href="https://hexo.io">Hexo</a>, theme using <a href="https://github.com/haishanh/hexo-theme-zxcvb">zxcvb</a>, hosted by <a href="https://github.com/haishanh/cncs/tree/gh-pages">Github Pages</a></div></footer><script src="/js/script.js"></script></body></html>

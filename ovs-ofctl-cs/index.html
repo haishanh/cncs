@@ -1,61 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Open vSwitch ovs-ofctl | CNCS</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="alternate" href="atom.xml" type="application/atom+xml">
-  <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-
-  
-  
-  
-  
-  
-<header style="background-image:url('http://carlog.qiniudn.com/ovs-ofctl.png'); background-size: 1000px 172px; background-position: center; background-repeat: no-repeat; background-color: #1B78E3; height: 172px;" class="with-bg">
-
-  <div class="wrapper clearfix">
-    
-<a href="/" class="site-title"><code>$_</code></a>
-
-    
-    <div class="menu"><span class="hamburger"><span></span></span></div>
-    <nav role="navigation" class="nav">
-      
-      <a href="/">Home</a>
-      
-      <a href="https://github.com/haishanh/cncs/">GitHub</a>
-      
-    </nav>
-    
-  </div>
-</header>
-<section class="main post">
-  <div class="wrapper clearfix">
-    <div class="post-header">
-      <h1 class="post-title">
-        
-          <a href="/ovs-ofctl-cs/">Open vSwitch ovs-ofctl</a>
-        
-      </h1>
-      
-      <span class="post-meta">January 15, 2016</span>
-      
-    </div>
-    
-
-  
-
-
-<div class="side toc">
-  <div class="toc-title">In this page</div>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#管理相关命令"><span class="toc-text">管理相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看bridge信息"><span class="toc-text">查看bridge信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dump-flow-table"><span class="toc-text">Dump flow table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dump-flow"><span class="toc-text">Dump flow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flow-Table相关命令"><span class="toc-text">Flow Table相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#添加-flow"><span class="toc-text">添加 flow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改-flow"><span class="toc-text">修改 flow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-flow"><span class="toc-text">删除 flow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flow-Syntax"><span class="toc-text">Flow Syntax</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#in-port"><span class="toc-text">in_port</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dl-vlan"><span class="toc-text">dl_vlan</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dl-vlan-pcp"><span class="toc-text">dl_vlan_pcp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dl-src-amp-dl-dst"><span class="toc-text">dl_src & dl_dst</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dl-type"><span class="toc-text">dl_type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-src-amp-nw-dst"><span class="toc-text">nw_src & nw_dst</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-proto-or-ip-proto"><span class="toc-text">nw_proto or ip_proto</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-tos"><span class="toc-text">nw_tos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ip-dscp"><span class="toc-text">ip_dscp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-ecn-or-ip-ecn"><span class="toc-text">nw_ecn or ip_ecn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-ttl"><span class="toc-text">nw_ttl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-udp-sctp-port"><span class="toc-text">tcp / udp / sctp port</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-flags"><span class="toc-text">tcp flags</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#icmp-type-amp-icmp-code"><span class="toc-text">icmp_type & icmp_code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协议关键字"><span class="toc-text">协议关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cookie"><span class="toc-text">cookie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#actions"><span class="toc-text">actions</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#output"><span class="toc-text">output</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#group"><span class="toc-text">group</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#normal"><span class="toc-text">normal</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#flood"><span class="toc-text">flood</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#all"><span class="toc-text">all</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#local"><span class="toc-text">local</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#in-port-1"><span class="toc-text">in_port</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#controller"><span class="toc-text">controller</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#enqueue"><span class="toc-text">enqueue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#drop"><span class="toc-text">drop</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vlan"><span class="toc-text">vlan</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mpls"><span class="toc-text">mpls</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#datalink-header-mod"><span class="toc-text">datalink header mod</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#network-header-mod"><span class="toc-text">network header mod</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#transport-header-mod"><span class="toc-text">transport header mod</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Examples"><span class="toc-text">Examples</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#VLAN相关"><span class="toc-text">VLAN相关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用cookie"><span class="toc-text">使用cookie</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contributors"><span class="toc-text">Contributors</span></a></li></ol>
-</div>
-    <div class="post-content">
-      <h2 id="管理相关命令"><a href="#管理相关命令" class="headerlink" title="管理相关命令"></a>管理相关命令</h2><h3 id="查看bridge信息"><a href="#查看bridge信息" class="headerlink" title="查看bridge信息"></a>查看bridge信息</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ovs-ofctl show br0</span><br><span class="line"><span class="comment"># 显示结果中port前面的数字为OpenFlow port id</span></span><br></pre></td></tr></table></figure>
+<!DOCTYPE html><html><head><title>Open vSwitch ovs-ofctl | CNCS</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="alternate" href="atom.xml" type="application/atom+xml"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.css" type="text/css"></head><body><header style="height:172px;background-image:url(http://carlog.qiniudn.com/ovs-ofctl.png);background-size:1000px 172px;background-position:center;background-repeat:no-repeat;background-color:#1B78E3" class="with-bg"><div class="wrapper"><a href="/" class="site-title"><code>$_</code></a><div class="menu"><span class="hamburger"><span></span></span></div><nav role="navigation" class="nav"><a href="/">Home</a><a href="https://github.com/haishanh/cncs/">GitHub</a><a href="/about/">About</a></nav></div></header><section class="main post"><div class="wrapper clearfix"><div class="post-header"><h2 class="post-title"><a href="/ovs-ofctl-cs/">Open vSwitch ovs-ofctl</a></h2><time datetime="2016-01-14T16:00:00.000Z">January 15, 2016</time></div><div class="side toc"><div class="toc-title">In this page</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#管理相关命令"><span class="toc-text">管理相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#查看bridge信息"><span class="toc-text">查看bridge信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dump-flow-table"><span class="toc-text">Dump flow table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Dump-flow"><span class="toc-text">Dump flow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flow-Table相关命令"><span class="toc-text">Flow Table相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#添加-flow"><span class="toc-text">添加 flow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改-flow"><span class="toc-text">修改 flow</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-flow"><span class="toc-text">删除 flow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Flow-Syntax"><span class="toc-text">Flow Syntax</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#in-port"><span class="toc-text">in_port</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dl-vlan"><span class="toc-text">dl_vlan</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dl-vlan-pcp"><span class="toc-text">dl_vlan_pcp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dl-src-amp-dl-dst"><span class="toc-text">dl_src & dl_dst</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#dl-type"><span class="toc-text">dl_type</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-src-amp-nw-dst"><span class="toc-text">nw_src & nw_dst</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-proto-or-ip-proto"><span class="toc-text">nw_proto or ip_proto</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-tos"><span class="toc-text">nw_tos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ip-dscp"><span class="toc-text">ip_dscp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-ecn-or-ip-ecn"><span class="toc-text">nw_ecn or ip_ecn</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#nw-ttl"><span class="toc-text">nw_ttl</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-udp-sctp-port"><span class="toc-text">tcp / udp / sctp port</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#tcp-flags"><span class="toc-text">tcp flags</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#icmp-type-amp-icmp-code"><span class="toc-text">icmp_type & icmp_code</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#协议关键字"><span class="toc-text">协议关键字</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#cookie"><span class="toc-text">cookie</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#actions"><span class="toc-text">actions</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#output"><span class="toc-text">output</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#group"><span class="toc-text">group</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#normal"><span class="toc-text">normal</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#flood"><span class="toc-text">flood</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#all"><span class="toc-text">all</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#local"><span class="toc-text">local</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#in-port-1"><span class="toc-text">in_port</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#controller"><span class="toc-text">controller</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#enqueue"><span class="toc-text">enqueue</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#drop"><span class="toc-text">drop</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#vlan"><span class="toc-text">vlan</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#mpls"><span class="toc-text">mpls</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#datalink-header-mod"><span class="toc-text">datalink header mod</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#network-header-mod"><span class="toc-text">network header mod</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#transport-header-mod"><span class="toc-text">transport header mod</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Examples"><span class="toc-text">Examples</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#VLAN相关"><span class="toc-text">VLAN相关</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#使用cookie"><span class="toc-text">使用cookie</span></a></li></ol></li></ol></li></ol></div><div class="post-content"><h2 id="管理相关命令"><a href="#管理相关命令" class="headerlink" title="管理相关命令"></a>管理相关命令</h2><h3 id="查看bridge信息"><a href="#查看bridge信息" class="headerlink" title="查看bridge信息"></a>查看bridge信息</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ovs-ofctl show br0</span><br><span class="line"><span class="comment"># 显示结果中port前面的数字为OpenFlow port id</span></span><br></pre></td></tr></table></figure>
 <h3 id="Dump-flow-table"><a href="#Dump-flow-table" class="headerlink" title="Dump flow table"></a>Dump flow <strong>table</strong></h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Dump br0所使用的flow table</span></span><br><span class="line">ovs-ofctl dump-tables br0</span><br></pre></td></tr></table></figure>
 <h3 id="Dump-flow"><a href="#Dump-flow" class="headerlink" title="Dump flow"></a>Dump flow</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Dump br0的所有flow</span></span><br><span class="line">ovs-ofctl dump-flows br0</span><br><span class="line"></span><br><span class="line"><span class="comment"># Dump br0上匹配xx的flow</span></span><br><span class="line">ovs-ofctl dump-flows br0 xx</span><br></pre></td></tr></table></figure>
 <h2 id="Flow-Table相关命令"><a href="#Flow-Table相关命令" class="headerlink" title="Flow Table相关命令"></a>Flow Table相关命令</h2><h3 id="添加-flow"><a href="#添加-flow" class="headerlink" title="添加 flow"></a>添加 flow</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ovs-ofctl add-flow br0 <span class="keyword">in</span>_port=1,actions=xx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从文件br0flow.txt中导入Flow Table</span></span><br><span class="line"><span class="comment"># 该文件必须一行一个flow</span></span><br><span class="line">ovs-ofctl add-flow br0 - &lt; br0flow.txt</span><br></pre></td></tr></table></figure>
@@ -87,7 +30,8 @@
 <li><code>dl_type=0x0806</code> 匹配ARP数据包</li>
 <li><code>dl_type=0x8035</code> 匹配RARP数据包</li>
 </ul>
-<div class="admonition note"><p class="admonition-title">Note</p><p>需要说明的是 dl_type=0x0800 可以用关键字 ip 代替。</p><p>而 dl_type=0x0806 可以用关键字 arp 代替。dl_type=0x8035 可以用关键字 rarp 代替。</p></div>
+<div class="admonition note"><p class="admonition-title">Note</p><p>需要说明的是 dl_type=0x0800 可以用关键字 ip 代替。<br>而 dl_type=0x0806 可以用关键字 arp 代替。dl_type=0x8035 可以用关键字 rarp 代替。</p>
+</div>
 <h3 id="nw-src-amp-nw-dst"><a href="#nw-src-amp-nw-dst" class="headerlink" title="nw_src &amp; nw_dst"></a>nw_src &amp; nw_dst</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">nw_src=&lt;ip[/netmask]&gt;</span><br><span class="line">nw_dst=&lt;ip[/netmask]&gt;</span><br></pre></td></tr></table></figure>
 <p>当使用了 <code>dl_type=0x0800</code> 或者关键字 <code>ip</code> 或 <code>tcp</code> 时，<code>nw_src</code> 和 <code>nw_dst</code>分配匹配IP头中的源IP地址和目的IP地址。其中<strong>netmask</strong>可以是<code>255.255.255.0</code>这样的(dotted quad)形式，也可以是数字 <code>24</code> 这样的(CIDR)形式</p>
 <p>当使用了 <code>dl_type=0x0806</code> 或者关键字 <code>arp</code> 时，<code>nw_src</code> 匹配 ARP 头中的 <strong>ar_spa</strong>(Sender Protocol Address)字段。<code>nw_dst</code> 匹配ARP头中的 <strong>ar_tpa</strong>(Target Protocol Address)字段</p>
@@ -195,31 +139,7 @@
 <h4 id="transport-header-mod"><a href="#transport-header-mod" class="headerlink" title="transport header mod"></a>transport header mod</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mod_tp_src:&lt;port&gt;</span><br><span class="line">mod_tp_dst:&lt;port&gt;</span><br></pre></td></tr></table></figure>
 <p>将数据包的TCP/UDP/SCTP源或目的端口设置成<port></port></p>
 <h3 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h3><h4 id="VLAN相关"><a href="#VLAN相关" class="headerlink" title="VLAN相关"></a>VLAN相关</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 添加VLAN tag</span></span><br><span class="line">ovs-ofctl add-flow br0 <span class="keyword">in</span>_port=1,actions=mod_vlan_vid:10,output:2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 剥去VLAN tag</span></span><br><span class="line">ovs-ofctl add-flow br0 <span class="keyword">in</span>_port=2,dl_vlan=100,actions=strip_vlan,output:1</span><br></pre></td></tr></table></figure>
-<h4 id="使用cookie"><a href="#使用cookie" class="headerlink" title="使用cookie"></a>使用cookie</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># add a flow</span></span><br><span class="line">ovs-ofctl add-flow br0 cookie=0xf,tcp,tcp_dst=22,actions=mod_nw_tos:128,normal</span><br><span class="line"></span><br><span class="line"><span class="comment"># To delte this flow</span></span><br><span class="line">ovs-ofctl del-flows br0 cookie=0xf/-1,tcp,tcp_dst=22</span><br><span class="line"><span class="comment"># Or simply</span></span><br><span class="line">ovs-ofctl del-flows br0 cookie=0xf/-1</span><br><span class="line"></span><br><span class="line"><span class="comment"># trace a flow</span></span><br><span class="line">ovs-appctl ofproto/trace br0 tcp,tcp_dst=22</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="Contributors"><a href="#Contributors" class="headerlink" title="Contributors"></a>Contributors</h2><p><a href="http://hanhaishan.com" target="_blank" rel="external">haishanh</a></p>
-
-    </div>
-    
-
-<div class="post-footer">
-  
-  Updated on 16/03/01
-</div>
-    
-<div class="post-buttons">
-  
-  
-    
-    <a href="https://github.com/haishanh/cncs/blob/master/source/_posts/ovs-ofctl-cs.md" target="_blank">Source</a>
-  
-</div>
-    
-  </div>
-  
-
-<div class="post-nav">
-<div style="height: 0; width: 0; position: absolute; visibility: hidden">
+<h4 id="使用cookie"><a href="#使用cookie" class="headerlink" title="使用cookie"></a>使用cookie</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># add a flow</span></span><br><span class="line">ovs-ofctl add-flow br0 cookie=0xf,tcp,tcp_dst=22,actions=mod_nw_tos:128,normal</span><br><span class="line"></span><br><span class="line"><span class="comment"># To delte this flow</span></span><br><span class="line">ovs-ofctl del-flows br0 cookie=0xf/-1,tcp,tcp_dst=22</span><br><span class="line"><span class="comment"># Or simply</span></span><br><span class="line">ovs-ofctl del-flows br0 cookie=0xf/-1</span><br><span class="line"></span><br><span class="line"><span class="comment"># trace a flow</span></span><br><span class="line">ovs-appctl ofproto/trace br0 tcp,tcp_dst=22</span><br></pre></td></tr></table></figure></div><div class="post-footer">By haishanh, Updated on 16/03/01</div><div class="post-author"><a href="http://hanhaishan.com"><img src="https://avatars0.githubusercontent.com/u/1166872?v=3" alt="Haishan"><span class="tooltip-arrow"></span><span class="tooltip">Haishan</span></a></div><div class="post-buttons"><a href="https://github.com/haishanh/cncs/blob/master/source/_posts/ovs-ofctl-cs.md" target="_blank">Source</a></div></div><div class="post-nav"><div style="height: 0; width: 0; position: absolute; visibility: hidden">
   <!-- inject:svg --><svg xmlns="http://www.w3.org/2000/svg"><symbol id="ic_chevron_left_white_24px" viewBox="0 0 24 24">
     <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
     <path d="M0 0h24v24H0z" fill="none"/>
@@ -227,29 +147,4 @@
     <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
     <path d="M0 0h24v24H0z" fill="none"/>
 </symbol></svg><!-- endinjected -->
-</div>
-  
-    <a href="/iptables/" class="nav prev">
-    <svg class="icon left"><use xlink:href="#ic_chevron_left_white_24px" /></svg>PREVIOUS</a>
-  
-  
-    <a href="/ovs-vsctl-cs/" class="nav next">
-    NEXT<svg class="icon right"><use xlink:href="#ic_chevron_right_white_24px" /></svg></a>
-  
-</div>
-</section><footer>
-  
-  <h3>CNCS</h3>
-  
-  
-  <p>A Collection of Cheatsheets</p>
-  
-  
-  <div class="additional">
-      <span>&copy;</span> 2016 <a href="http://hanhaishan.com">Haishan</a><br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a><br> Powered by <a href="https://hexo.io">Hexo</a>, theme using <a href="https://github.com/haishanh/hexo-theme-zxcvb">zxcvb</a>
-  </div>
-  
-</footer>
-<script src="/js/script.js"></script>
-</body>
-</html>
+</div><a href="/iptables/" class="nav prev"><svg class="icon left"><use xlink:href="#ic_chevron_left_white_24px"></use></svg>PREVIOUS</a><a href="/ovs-vsctl-cs/" class="nav next">NEXT<svg class="icon right"><use xlink:href="#ic_chevron_right_white_24px"></use></svg></a></div></section><footer><h3>CNCS</h3><p>A Collection of Cheatsheets</p><div class="additional"><span>&copy;</span> 2016 <a href="http://hanhaishan.com">Haishan</a><br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a><br> Powered by <a href="https://hexo.io">Hexo</a>, theme using <a href="https://github.com/haishanh/hexo-theme-zxcvb">zxcvb</a>, hosted by <a href="https://github.com/haishanh/cncs/tree/gh-pages">Github Pages</a></div></footer><script src="/js/script.js"></script></body></html>

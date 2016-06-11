@@ -1,61 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Open vSwitch ovs-vsctl | CNCS</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="alternate" href="atom.xml" type="application/atom+xml">
-  <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-
-  
-  
-  
-  
-  
-<header style="background-image:url('http://carlog.qiniudn.com/ovs-vsctl2.png'); background-size: 1000px 540px; background-position: center; background-repeat: no-repeat; background-color: #1B78E3; height: 590px;" class="with-bg">
-
-  <div class="wrapper clearfix">
-    
-<a href="/" class="site-title"><code>$_</code></a>
-
-    
-    <div class="menu"><span class="hamburger"><span></span></span></div>
-    <nav role="navigation" class="nav">
-      
-      <a href="/">Home</a>
-      
-      <a href="https://github.com/haishanh/cncs/">GitHub</a>
-      
-    </nav>
-    
-  </div>
-</header>
-<section class="main post">
-  <div class="wrapper clearfix">
-    <div class="post-header">
-      <h1 class="post-title">
-        
-          <a href="/ovs-vsctl-cs/">Open vSwitch ovs-vsctl</a>
-        
-      </h1>
-      
-      <span class="post-meta">January 15, 2016</span>
-      
-    </div>
-    
-
-  
-
-
-<div class="side toc">
-  <div class="toc-title">In this page</div>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bridge-相关命令"><span class="toc-text">Bridge 相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建-bridge"><span class="toc-text">创建 bridge</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除bridge"><span class="toc-text">删除bridge</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询已有的-bridge"><span class="toc-text">查询已有的 bridge</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#端口相关命令"><span class="toc-text">端口相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#添加端口"><span class="toc-text">添加端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建-bond"><span class="toc-text">创建 bond</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移除端口"><span class="toc-text">移除端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列出端口"><span class="toc-text">列出端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看端口详细数据"><span class="toc-text">查看端口详细数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenFlow-控制器相关"><span class="toc-text">OpenFlow 控制器相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#添加控制器"><span class="toc-text">添加控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移除控制器"><span class="toc-text">移除控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询-brige-上已配置的控制器"><span class="toc-text">查询 brige 上已配置的控制器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VLAN-相关"><span class="toc-text">VLAN 相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置端口为Access口"><span class="toc-text">配置端口为Access口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置端口为Trunk口"><span class="toc-text">配置端口为Trunk口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VXLAN-相关"><span class="toc-text">VXLAN 相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Atomic-operation"><span class="toc-text">Atomic operation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建-internal-port"><span class="toc-text">创建 internal port</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置-OpenFlow-port-id"><span class="toc-text">设置 OpenFlow port id</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置OpenFlow版本"><span class="toc-text">设置OpenFlow版本</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Contributors"><span class="toc-text">Contributors</span></a></li></ol>
-</div>
-    <div class="post-content">
-      <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Open vSwitch中有多个命令，分别有不同的作用，大致如下：</p>
+<!DOCTYPE html><html><head><title>Open vSwitch ovs-vsctl | CNCS</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="alternate" href="atom.xml" type="application/atom+xml"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.css" type="text/css"></head><body><header style="height:590px;background-image:url(http://carlog.qiniudn.com/ovs-vsctl2.png);background-size:1000px 540px;background-position:center;background-repeat:no-repeat;background-color:#1B78E3" class="with-bg"><div class="wrapper"><a href="/" class="site-title"><code>$_</code></a><div class="menu"><span class="hamburger"><span></span></span></div><nav role="navigation" class="nav"><a href="/">Home</a><a href="https://github.com/haishanh/cncs/">GitHub</a><a href="/about/">About</a></nav></div></header><section class="main post"><div class="wrapper clearfix"><div class="post-header"><h2 class="post-title"><a href="/ovs-vsctl-cs/">Open vSwitch ovs-vsctl</a></h2><time datetime="2016-01-14T16:00:00.000Z">January 15, 2016</time></div><div class="side toc"><div class="toc-title">In this page</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Bridge-相关命令"><span class="toc-text">Bridge 相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#创建-bridge"><span class="toc-text">创建 bridge</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除bridge"><span class="toc-text">删除bridge</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询已有的-bridge"><span class="toc-text">查询已有的 bridge</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#端口相关命令"><span class="toc-text">端口相关命令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#添加端口"><span class="toc-text">添加端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建-bond"><span class="toc-text">创建 bond</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移除端口"><span class="toc-text">移除端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列出端口"><span class="toc-text">列出端口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查看端口详细数据"><span class="toc-text">查看端口详细数据</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OpenFlow-控制器相关"><span class="toc-text">OpenFlow 控制器相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#添加控制器"><span class="toc-text">添加控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#移除控制器"><span class="toc-text">移除控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询-brige-上已配置的控制器"><span class="toc-text">查询 brige 上已配置的控制器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VLAN-相关"><span class="toc-text">VLAN 相关</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#配置端口为Access口"><span class="toc-text">配置端口为Access口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置端口为Trunk口"><span class="toc-text">配置端口为Trunk口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VXLAN-相关"><span class="toc-text">VXLAN 相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Atomic-operation"><span class="toc-text">Atomic operation</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建-internal-port"><span class="toc-text">创建 internal port</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置-OpenFlow-port-id"><span class="toc-text">设置 OpenFlow port id</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置OpenFlow版本"><span class="toc-text">设置OpenFlow版本</span></a></li></ol></li></ol></div><div class="post-content"><h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Open vSwitch中有多个命令，分别有不同的作用，大致如下：</p>
 <ul>
 <li><code>ovs-vsctl</code>用于控制ovs db</li>
 <li><code>ovs-ofctl</code>用于管理OpenFlow switch 的 flow</li>
@@ -103,32 +46,9 @@
 <h3 id="创建-internal-port"><a href="#创建-internal-port" class="headerlink" title="创建 internal port"></a>创建 internal port</h3><p>OVS <strong>internal port</strong> 可以配置IP地址，普通 port 上配置的IP地址是不起作用的。在 br0 上创建一个internal port <code>in0</code>:</p>
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ovs-vsctl add-br br0 <span class="keyword">in</span>0 -- <span class="built_in">set</span> interface <span class="keyword">in</span>0 <span class="built_in">type</span>=internal</span><br><span class="line">ip addr add 10.10.10.10/24 dev <span class="keyword">in</span>0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建internal port的同时将其设置为VLAN 10的access port</span></span><br><span class="line">ovs-vsctl add-br br0 <span class="keyword">in</span>1 tag=10 -- <span class="built_in">set</span> interface <span class="keyword">in</span>1 <span class="built_in">type</span>=internal</span><br><span class="line">ip addr add 20.20.20.20/24 dev <span class="keyword">in</span>1</span><br></pre></td></tr></table></figure>
 <h3 id="设置-OpenFlow-port-id"><a href="#设置-OpenFlow-port-id" class="headerlink" title="设置 OpenFlow port id"></a>设置 OpenFlow port id</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 将已在ovs中的端口veth1的OpenFlow端口设置成100</span></span><br><span class="line">ovs-vsctl <span class="built_in">set</span> interface veth1 ofport_request=100</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将端口veth1添加到bridge br0中，并将veth1的OpenFlow端口设置成200</span></span><br><span class="line">ovs-vsctl add-port br0 veth1 -- <span class="built_in">set</span> interface veth1 ofport_request=200</span><br></pre></td></tr></table></figure>
-<div class="admonition note"><p class="admonition-title">Note</p><p>OpenFlow的端口 id 在设置 flow 的匹配字段 in_port 以及 actions 字段的 output 中都会用到。</p><p>可以通过命令ovs-ofctl show br0来查看 br0 中各端口的 OpenFlow 端口 id，该 id 并不求是按顺序的。</p></div>
-<h3 id="设置OpenFlow版本"><a href="#设置OpenFlow版本" class="headerlink" title="设置OpenFlow版本"></a>设置OpenFlow版本</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ovs-vsctl <span class="built_in">set</span> bridge br0 protocols=OpenFlow10,OpenFlow12,OpenFlow13</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="Contributors"><a href="#Contributors" class="headerlink" title="Contributors"></a>Contributors</h2><p><a href="http://hanhaishan.com" target="_blank" rel="external">haishanh</a></p>
-
-    </div>
-    
-
-<div class="post-footer">
-  
-  Updated on 16/03/01
+<div class="admonition note"><p class="admonition-title">Note</p><p>OpenFlow的端口 id 在设置 flow 的匹配字段 in_port 以及 actions 字段的 output 中都会用到。<br>可以通过命令ovs-ofctl show br0来查看 br0 中各端口的 OpenFlow 端口 id，该 id 并不求是按顺序的。</p>
 </div>
-    
-<div class="post-buttons">
-  
-  
-    
-    <a href="https://github.com/haishanh/cncs/blob/master/source/_posts/ovs-vsctl-cs.md" target="_blank">Source</a>
-  
-</div>
-    
-  </div>
-  
-
-<div class="post-nav">
-<div style="height: 0; width: 0; position: absolute; visibility: hidden">
+<h3 id="设置OpenFlow版本"><a href="#设置OpenFlow版本" class="headerlink" title="设置OpenFlow版本"></a>设置OpenFlow版本</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ovs-vsctl <span class="built_in">set</span> bridge br0 protocols=OpenFlow10,OpenFlow12,OpenFlow13</span><br></pre></td></tr></table></figure></div><div class="post-footer">By haishanh, Updated on 16/03/01</div><div class="post-author"><a href="http://hanhaishan.com"><img src="https://avatars0.githubusercontent.com/u/1166872?v=3" alt="Haishan"><span class="tooltip-arrow"></span><span class="tooltip">Haishan</span></a></div><div class="post-buttons"><a href="https://github.com/haishanh/cncs/blob/master/source/_posts/ovs-vsctl-cs.md" target="_blank">Source</a></div></div><div class="post-nav"><div style="height: 0; width: 0; position: absolute; visibility: hidden">
   <!-- inject:svg --><svg xmlns="http://www.w3.org/2000/svg"><symbol id="ic_chevron_left_white_24px" viewBox="0 0 24 24">
     <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
     <path d="M0 0h24v24H0z" fill="none"/>
@@ -136,26 +56,4 @@
     <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
     <path d="M0 0h24v24H0z" fill="none"/>
 </symbol></svg><!-- endinjected -->
-</div>
-  
-    <a href="/ovs-ofctl-cs/" class="nav prev">
-    <svg class="icon left"><use xlink:href="#ic_chevron_left_white_24px" /></svg>PREVIOUS</a>
-  
-  
-</div>
-</section><footer>
-  
-  <h3>CNCS</h3>
-  
-  
-  <p>A Collection of Cheatsheets</p>
-  
-  
-  <div class="additional">
-      <span>&copy;</span> 2016 <a href="http://hanhaishan.com">Haishan</a><br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a><br> Powered by <a href="https://hexo.io">Hexo</a>, theme using <a href="https://github.com/haishanh/hexo-theme-zxcvb">zxcvb</a>
-  </div>
-  
-</footer>
-<script src="/js/script.js"></script>
-</body>
-</html>
+</div><a href="/ovs-ofctl-cs/" class="nav prev"><svg class="icon left"><use xlink:href="#ic_chevron_left_white_24px"></use></svg>PREVIOUS</a></div></section><footer><h3>CNCS</h3><p>A Collection of Cheatsheets</p><div class="additional"><span>&copy;</span> 2016 <a href="http://hanhaishan.com">Haishan</a><br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a><br> Powered by <a href="https://hexo.io">Hexo</a>, theme using <a href="https://github.com/haishanh/hexo-theme-zxcvb">zxcvb</a>, hosted by <a href="https://github.com/haishanh/cncs/tree/gh-pages">Github Pages</a></div></footer><script src="/js/script.js"></script></body></html>

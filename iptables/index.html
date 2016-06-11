@@ -1,56 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>iptables | CNCS</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="alternate" href="atom.xml" type="application/atom+xml">
-  <link rel="icon" href="/favicon.ico">
-  <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-
-<header>
-
-  <div class="wrapper clearfix">
-    
-<a href="/" class="site-title"><code>$_</code></a>
-
-    
-    <div class="menu"><span class="hamburger"><span></span></span></div>
-    <nav role="navigation" class="nav">
-      
-      <a href="/">Home</a>
-      
-      <a href="https://github.com/haishanh/cncs/">GitHub</a>
-      
-    </nav>
-    
-  </div>
-</header>
-<section class="main post">
-  <div class="wrapper clearfix">
-    <div class="post-header">
-      <h1 class="post-title">
-        
-          <a href="/iptables/">iptables</a>
-        
-      </h1>
-      
-      <span class="post-meta">February 1, 2016</span>
-      
-    </div>
-    
-
-  
-
-
-<div class="side toc">
-  <div class="toc-title">In this page</div>
-  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本语法"><span class="toc-text">基本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#table"><span class="toc-text">table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Command"><span class="toc-text">Command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Options"><span class="toc-text">Options</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#匹配规则"><span class="toc-text">匹配规则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通用匹配-Generic-Match"><span class="toc-text">通用匹配 Generic Match</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐式匹配-Implicit-Match"><span class="toc-text">隐式匹配 Implicit Match</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP-匹配"><span class="toc-text">TCP 匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UDP-匹配"><span class="toc-text">UDP 匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ICMP-匹配"><span class="toc-text">ICMP 匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SCTP-匹配"><span class="toc-text">SCTP 匹配</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显式匹配-Explicit-Match"><span class="toc-text">显式匹配 Explicit Match</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#addrtype"><span class="toc-text">addrtype</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Examples"><span class="toc-text">Examples</span></a></li></ol>
+<!DOCTYPE html><html><head><title>iptables | CNCS</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="alternate" href="atom.xml" type="application/atom+xml"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.css" type="text/css"></head><body><header style="height:150px;background-image:url(http://7fva40.com1.z0.glb.clouddn.com/starry-night.jpg);background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#333" class="with-bg"><div class="wrapper"><a href="/" class="site-title"><code>$_</code></a><div class="menu"><span class="hamburger"><span></span></span></div><nav role="navigation" class="nav"><a href="/">Home</a><a href="https://github.com/haishanh/cncs/">GitHub</a><a href="/about/">About</a></nav></div></header><section class="main post"><div class="wrapper clearfix"><div class="post-header"><h2 class="post-title"><a href="/iptables/">iptables</a></h2><time datetime="2016-01-31T16:00:00.000Z">February 1, 2016</time></div><div class="side toc"><div class="toc-title">In this page</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Introduction"><span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本语法"><span class="toc-text">基本语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#table"><span class="toc-text">table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Command"><span class="toc-text">Command</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Options"><span class="toc-text">Options</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#匹配规则"><span class="toc-text">匹配规则</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通用匹配-Generic-Match"><span class="toc-text">通用匹配 Generic Match</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#隐式匹配-Implicit-Match"><span class="toc-text">隐式匹配 Implicit Match</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#TCP-匹配"><span class="toc-text">TCP 匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UDP-匹配"><span class="toc-text">UDP 匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ICMP-匹配"><span class="toc-text">ICMP 匹配</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SCTP-匹配"><span class="toc-text">SCTP 匹配</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显式匹配-Explicit-Match"><span class="toc-text">显式匹配 Explicit Match</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#addrtype"><span class="toc-text">addrtype</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Examples"><span class="toc-text">Examples</span></a></li></ol></div><div class="post-content"><div class="admonition critical"><p class="admonition-title">本文还未完成</p><p>编写中…</p>
 </div>
-    <div class="post-content">
-      <div class="admonition critical"><p class="admonition-title">本文还未完成</p><p>编写中...</p></div>
 <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p><strong>iptabels</strong> is a userspace application used to configure the firewall(netfilter) in Linux kernel.</p>
 <p><strong>iptables</strong> 是一个用来配置 Linux kernel 中 firewall(netfilter) 的一个工具。</p>
 <h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">iptables [-t table] command [match] [target/jump]</span><br></pre></td></tr></table></figure>
@@ -139,7 +88,8 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">-s 192.168.1.2</span><br><span class="line">-s 192.168.1.0/24</span><br><span class="line">-s 192.168.1.0/255.255.255.0</span><br><span class="line">-s ! 192.168.1.0/24</span><br></pre></td></tr></table></figure>
 <p>匹配源/目的 IP 地址。 可以使用子网掩码来指定网段。 可以使用<code>!</code>。</p>
-<div class="admonition note"><p class="admonition-title">Note</p><p>iptables 中很多匹配选项中可以使用&quot;!&quot;符号来作反向作用。比如 `-s ! 192.168.1.0/24` 匹配不是从 192.168.1.0/24 网段来源的数据包。</p></div>
+<div class="admonition note"><p class="admonition-title">Note</p><p>iptables 中很多匹配选项中可以使用”!”符号来作反向作用。比如 <code>-s ! 192.168.1.0/24</code> 匹配不是从 192.168.1.0/24 网段来源的数据包。</p>
+</div>
 <ul>
 <li><code>-i / --in-interface</code> &amp;&amp; <code>-o / --out-interface</code></li>
 </ul>
@@ -195,28 +145,7 @@
 <figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -A INPUT -p sctp --chunk-types any INIT,INIT_ACK</span><br></pre></td></tr></table></figure>
 <p>用于匹配 SCTP 中的 chunk type。第一个参数可以是<code>all</code>, <code>any</code> 或 <code>none</code>，第二个参数中是逗号分隔的chunk type 名字。第一个参数是<code>all</code>即表示匹配第二个参数中的所有type，第一个参数是<code>any</code>表示匹配第二参数中的某一个或多个，第一个参数是<code>none</code>表示不匹配第二个参数中的所有type。</p>
 <h3 id="显式匹配-Explicit-Match"><a href="#显式匹配-Explicit-Match" class="headerlink" title="显式匹配 Explicit Match"></a>显式匹配 Explicit Match</h3><h4 id="addrtype"><a href="#addrtype" class="headerlink" title="addrtype"></a>addrtype</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">addrtype</span><br><span class="line">-m addrtype –-src-type</span><br><span class="line">-m addrtype –dst-type</span><br><span class="line">UNICAST, BROADCAST, MULTICAST…</span><br><span class="line">AH/ESP</span><br><span class="line">-p 51 –m ah –-ahspi</span><br><span class="line">-p 50 –m esp –-espspi</span><br><span class="line">500 //Security Parameter Index</span><br><span class="line">Comment</span><br><span class="line">-m comment –-comment</span><br><span class="line">“This is a comment”</span><br><span class="line"></span><br><span class="line">DSCP</span><br><span class="line">-m dscp –-dscp</span><br><span class="line">32</span><br><span class="line">-m dscp –dscp-class</span><br><span class="line">  BE, EF…</span><br><span class="line">ECN</span><br><span class="line">-m ecn –-ecn-tcp-cwr</span><br><span class="line">//match packets <span class="built_in">set</span> bit:Congestion Window Received</span><br><span class="line">TOS</span><br><span class="line">-m tos –-tos</span><br><span class="line">0x16</span><br><span class="line">TTL</span><br><span class="line">-m ttl –-ttl<span class="_">-eq</span></span><br><span class="line">-m ttl –-ttl<span class="_">-gt</span></span><br><span class="line">-m ttl --ttl<span class="_">-lt</span></span><br><span class="line">64</span><br><span class="line"></span><br><span class="line">Length</span><br><span class="line">-m length –-length</span><br><span class="line">1400:1500, 1500</span><br><span class="line">Limit</span><br><span class="line">-m <span class="built_in">limit</span> –-limit</span><br><span class="line">3/hour, 10/day</span><br><span class="line">-m <span class="built_in">limit</span> –-limit-burst</span><br><span class="line">5</span><br></pre></td></tr></table></figure>
-<h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -I INPUT <span class="_">-s</span> 172.24.220.56 -p icmp --icmp-type <span class="built_in">echo</span>-request -j REJECT --reject-with icmp-host-prohibited</span><br><span class="line">iptables –L INPUT –v</span><br><span class="line">iptables –L INPUT –v --line-numbers</span><br><span class="line">iptables -I INPUT <span class="_">-s</span> 172.24.220.56 -p icmp --icmp-type <span class="built_in">echo</span>-request -m <span class="built_in">limit</span> --limit 6/minute --limit-burst 5 -j ACCEPT</span><br><span class="line">iptables -R INPUT 2 <span class="_">-s</span> 172.24.220.56 -p icmp --icmp-type <span class="built_in">echo</span>-request -j REJECT --reject-with icmp-host-unreachable</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">iptables –t nat -A PREROUTING -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 8000</span><br></pre></td></tr></table></figure>
-    </div>
-    
-
-<div class="post-footer">
-  
-  Updated on 16/04/01
-</div>
-    
-<div class="post-buttons">
-  
-  
-    
-    <a href="https://github.com/haishanh/cncs/blob/master/source/_posts/iptables.md" target="_blank">Source</a>
-  
-</div>
-    
-  </div>
-  
-
-<div class="post-nav">
-<div style="height: 0; width: 0; position: absolute; visibility: hidden">
+<h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">iptables -I INPUT <span class="_">-s</span> 172.24.220.56 -p icmp --icmp-type <span class="built_in">echo</span>-request -j REJECT --reject-with icmp-host-prohibited</span><br><span class="line">iptables –L INPUT –v</span><br><span class="line">iptables –L INPUT –v --line-numbers</span><br><span class="line">iptables -I INPUT <span class="_">-s</span> 172.24.220.56 -p icmp --icmp-type <span class="built_in">echo</span>-request -m <span class="built_in">limit</span> --limit 6/minute --limit-burst 5 -j ACCEPT</span><br><span class="line">iptables -R INPUT 2 <span class="_">-s</span> 172.24.220.56 -p icmp --icmp-type <span class="built_in">echo</span>-request -j REJECT --reject-with icmp-host-unreachable</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">iptables –t nat -A PREROUTING -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 8000</span><br></pre></td></tr></table></figure></div><div class="post-footer">By haishanh, Updated on 16/04/01</div><div class="post-author"><a href="http://hanhaishan.com"><img src="https://avatars0.githubusercontent.com/u/1166872?v=3" alt="Haishan"><span class="tooltip-arrow"></span><span class="tooltip">Haishan</span></a></div><div class="post-buttons"><a href="https://github.com/haishanh/cncs/blob/master/source/_posts/iptables.md" target="_blank">Source</a></div></div><div class="post-nav"><div style="height: 0; width: 0; position: absolute; visibility: hidden">
   <!-- inject:svg --><svg xmlns="http://www.w3.org/2000/svg"><symbol id="ic_chevron_left_white_24px" viewBox="0 0 24 24">
     <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
     <path d="M0 0h24v24H0z" fill="none"/>
@@ -224,29 +153,4 @@
     <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
     <path d="M0 0h24v24H0z" fill="none"/>
 </symbol></svg><!-- endinjected -->
-</div>
-  
-    <a href="/iproute2/" class="nav prev">
-    <svg class="icon left"><use xlink:href="#ic_chevron_left_white_24px" /></svg>PREVIOUS</a>
-  
-  
-    <a href="/ovs-ofctl-cs/" class="nav next">
-    NEXT<svg class="icon right"><use xlink:href="#ic_chevron_right_white_24px" /></svg></a>
-  
-</div>
-</section><footer>
-  
-  <h3>CNCS</h3>
-  
-  
-  <p>A Collection of Cheatsheets</p>
-  
-  
-  <div class="additional">
-      <span>&copy;</span> 2016 <a href="http://hanhaishan.com">Haishan</a><br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a><br> Powered by <a href="https://hexo.io">Hexo</a>, theme using <a href="https://github.com/haishanh/hexo-theme-zxcvb">zxcvb</a>
-  </div>
-  
-</footer>
-<script src="/js/script.js"></script>
-</body>
-</html>
+</div><a href="/iproute2/" class="nav prev"><svg class="icon left"><use xlink:href="#ic_chevron_left_white_24px"></use></svg>PREVIOUS</a><a href="/ovs-ofctl-cs/" class="nav next">NEXT<svg class="icon right"><use xlink:href="#ic_chevron_right_white_24px"></use></svg></a></div></section><footer><h3>CNCS</h3><p>A Collection of Cheatsheets</p><div class="additional"><span>&copy;</span> 2016 <a href="http://hanhaishan.com">Haishan</a><br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a><br> Powered by <a href="https://hexo.io">Hexo</a>, theme using <a href="https://github.com/haishanh/hexo-theme-zxcvb">zxcvb</a>, hosted by <a href="https://github.com/haishanh/cncs/tree/gh-pages">Github Pages</a></div></footer><script src="/js/script.js"></script></body></html>

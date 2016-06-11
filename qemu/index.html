@@ -1,0 +1,112 @@
+<!DOCTYPE html><html><head><title>QEMU Cheatsheet | CNCS</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><link rel="alternate" href="atom.xml" type="application/atom+xml"><link rel="icon" href="/favicon.ico"><link rel="stylesheet" href="/css/main.css" type="text/css"></head><body><header style="height:150px;background-image:url(http://7fva40.com1.z0.glb.clouddn.com/starry-night.jpg);background-size:cover;background-position:center;background-repeat:no-repeat;background-color:#333" class="with-bg"><div class="wrapper"><a href="/" class="site-title"><code>$_</code></a><div class="menu"><span class="hamburger"><span></span></span></div><nav role="navigation" class="nav"><a href="/">Home</a><a href="https://github.com/haishanh/cncs/">GitHub</a><a href="/about/">About</a></nav></div></header><section class="main post"><div class="wrapper clearfix"><div class="post-header"><h2 class="post-title"><a href="/qemu/">QEMU Cheatsheet</a></h2><time datetime="2016-06-09T16:00:00.000Z">June 10, 2016</time></div><div class="side toc"><div class="toc-title">In this page</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Launch-a-VM"><span class="toc-text">Launch a VM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基本配置"><span class="toc-text">基本配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VNC访问"><span class="toc-text">VNC访问</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Networking"><span class="toc-text">Networking</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#定义Nic"><span class="toc-text">定义Nic</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#User-mode-Networking"><span class="toc-text">User-mode Networking</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Tap-Networking"><span class="toc-text">Tap Networking</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bridged-Networking"><span class="toc-text">Bridged Networking</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Using-Devices"><span class="toc-text">Using Devices</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Storage-Device"><span class="toc-text">Storage Device</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Others"><span class="toc-text">Others</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Refs"><span class="toc-text">Refs</span></a></li></ol></div><div class="post-content"><p>QEMU 是一个开源的虚拟化软件。更准确的说：</p>
+<blockquote>
+<p>QEMU is a generic and open source machine emulator and virtualizer.</p>
+</blockquote>
+<p>QEMU可以作为单独的virtualizer使用，就是说只需要QEMU本身就可以运行虚拟机(VM)。 但QEMU也可以使用其他的 hypervisor，比如使用 Xen 和 KVM 来达到更高效更快速的基于硬件的虚拟化。</p>
+<p>原始的QEMU软件中，对不同架构的VM需要使用不同的qemu可执行文件。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">$ qemu-system-</span><br><span class="line">qemu-system-aarch64       qemu-system-mips64        qemu-system-sh4eb</span><br><span class="line">qemu-system-alpha         qemu-system-mips64el      qemu-system-sparc</span><br><span class="line">qemu-system-arm           qemu-system-mipsel        qemu-system-sparc64</span><br><span class="line">qemu-system-cris          qemu-system-moxie         qemu-system-tricore</span><br><span class="line">qemu-system-i386          qemu-system-or32          qemu-system-unicore32</span><br><span class="line">qemu-system-lm32          qemu-system-ppc           qemu-system-x86_64</span><br><span class="line">qemu-system-m68k          qemu-system-ppc64         qemu-system-xtensa</span><br><span class="line">qemu-system-microblaze    qemu-system-ppcemb        qemu-system-xtensaeb</span><br><span class="line">qemu-system-microblazeel  qemu-system-s390x</span><br><span class="line">qemu-system-mips          qemu-system-sh4</span><br></pre></td></tr></table></figure>
+<p>比如如果你运行的是一个arm的VM，你需要使用<code>qemu-system-arm</code>，如果是运行64位x86的VM，需要使用<code>qemu-system-x86_64</code>。如果想获得KVM的加速，VM guest本身的架构要和host主机的架构相同。本文例子中的命令都使用<code>qemu-system-x86_64</code>。</p>
+<h2 id="Launch-a-VM"><a href="#Launch-a-VM" class="headerlink" title="Launch a VM"></a>Launch a VM</h2><p>以下命令会运行一个 VM，image 为 <code>arch.qcow2</code>，该虚拟机会默认有一个 Intel e1000 的 nic (Network Interface Card, 网卡)</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 arch.qcow2</span><br></pre></td></tr></table></figure>
+<div class="admonition note"><p class="admonition-title">Note</p><p>使用上面的命令，会打开 QEMU 的窗口作为 VM 的 console。所以当前的环境必须要支持图形化显示。</p>
+<p>主机要装有X窗口(此处，可直接理解成图形化界面/桌面)。可以直接在主机桌面环境下运行这个命令，或在有 X 转发的远程终端软件中运行，或 VNC 中。</p>
+<p>不需要 VM 的图像界面的话，推荐加上 <code>-nographic</code> 选项。</p>
+</div>
+<div class="admonition note"><p class="admonition-title">Note</p><p>推荐加上 <code>-enable-kvm</code> 选项，有了该选项 QEMU 会使用 <code>KVM</code> (Kernel-based Virtual Machine) 技术。 VM 的运行速度会有非常显著的提升。</p>
+</div>
+<p>所以推荐这样运行：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 -enable-kvm arch.qcow2</span><br></pre></td></tr></table></figure>
+<h2 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h2><p>运行 VM 的时候，可以指定其内存大小 和 CPU 类型和个数。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 \</span><br><span class="line">-enable-kvm \</span><br><span class="line">-nographic \</span><br><span class="line">-m 4G \</span><br><span class="line">-cpu SandyBridge \</span><br><span class="line">-smp 4 \</span><br><span class="line">arch.qcow2</span><br></pre></td></tr></table></figure>
+<p>以上命令中:</p>
+<ul>
+<li><code>-m 4G</code> 来指定 VM 的内存为4G。也可以使用 <code>M</code> 作单位。QEMU默认会将VM内存配置成128M。</li>
+<li><p><code>-cpu SandyBridge</code> 指定了 CPU model(CPU model，会决定 VM 的 CPU 所支持的 feature)。当然也可以是<code>-cpu Haswell</code>, <code>-cpu Haswell</code>等，完整可用列表可以通过运行 <code>qemu-system-x86_64 -cpu ?</code> 来查看。<code>-cpu host</code>，表示使用和主机一直的 CPU model。</p>
+</li>
+<li><p><code>-smp 4</code>, 表示 VM 会有4个 CPU。对于 VM 来说，相当于有4个 CPU socket(插槽)，每个 CPU 会有1个单线程的 core。我们也可以自己指定 CPU layout， 比如 <code>-smp cores=4,threads=2,sockets=1</code> 可以指定 1个 CPU，该 CPU 有4个 core，每个 core 双线程，所以总共有 8 个逻辑 core。</p>
+</li>
+</ul>
+<h2 id="VNC访问"><a href="#VNC访问" class="headerlink" title="VNC访问"></a>VNC访问</h2><p>使用<code>-vnc</code>选项及相关参数，可以让我们通过VNC来访问VM。</p>
+<p>用法：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 [...] \</span><br><span class="line">-vnc display[,option[,option[,...]]]</span><br></pre></td></tr></table></figure>
+<p>其中<code>display</code>不是字面值，通常使用<code>host:d</code>的格式，<code>host</code>是listen的IP地址，通常省略，表示localhost。<code>d</code>是指VNC display id。</p>
+<p>比如：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 \</span><br><span class="line">-enable-kvm \</span><br><span class="line">-nographic \</span><br><span class="line">-vnc :30</span><br><span class="line">arch.qcow2</span><br></pre></td></tr></table></figure>
+<p>这样就可以在 host 主机上通过 VNC viewer 访问 <code>0:30</code> 来看到 VM 的运行窗口。</p>
+<p>更实用的是，假设host主机有个IP 12.13.14.15，在主机外部的其他机器上可以通过VNC viewer 访问 <code>12.13.14.15:30</code> 来查看VM的运行窗口。通常选项<code>-vnc :d</code> 会使用host主机的TCP 5900+d 端口，上面的例子会使用5930 TCP 端口。所以host主机的防火墙需要开放对应TCP端口。</p>
+<h2 id="Networking"><a href="#Networking" class="headerlink" title="Networking"></a>Networking</h2><h3 id="定义Nic"><a href="#定义Nic" class="headerlink" title="定义Nic"></a>定义Nic</h3><p>使用选项 <code>-net nic</code>，可以给VM定义一个nic。语法是：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 [...] \</span><br><span class="line">-net nic[,vlan=n][,macaddr=mac][,model=<span class="built_in">type</span>] [,name=name][,addr=addr][,vectors=v]</span><br></pre></td></tr></table></figure>
+<p>比如下面的命令，给VM定义了2个 nic，第1个nic的VLAN为0(默认)，model为e1000(默认)。第2个nic的VLAN为10，model为virtio，MAC地址为<code>52:54:1b:aa:fc:d2</code>。</p>
+<p>如果不使用任何<code>-net nic</code>(或其他Nic相关)参数，QEMU 也默认会给 VM 一个 VLAN 为0的 e1000 nic。完整可用的nic model列表可以通过命令<code>qemu-system-x86_64 -net nic,model=?</code>来查看。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 \</span><br><span class="line">-enable-kvm \</span><br><span class="line">-net nic \</span><br><span class="line">-net nic,vlan=10,model=virtio,macaddr=52:54:1b:aa:<span class="built_in">fc</span>:d2 \</span><br><span class="line">arch.qcow2</span><br></pre></td></tr></table></figure>
+<div class="admonition note"><p class="admonition-title">Tips</p><p>以上所说的nic的model，其实就是指nic所用的driver。在 VM 中使用<code>ethtool</code>来查看。比如<code>ethtool -i ens3</code>。通常将model设置成<code>virtio</code>来获得更好的性能。</p>
+</div>
+<div class="admonition note"><p class="admonition-title">Info</p><p>如果不指定MAC地址，则 QEMU 会自动给这个nic一个MAC地址，但问题是这个MAC地址是一个固定值。假设你在这台主机上运行了第2个VM，并且该VM有nic也没指定MAC地址，则这两个VM的相应nic会有相同的MAC地址。假设这两个VM的对应nic接入同一网络，则会出现冲突。所以一般会指定MAC地址。</p>
+<p>VM nic的MAC地址必须是 <code>52:54</code> 开头。所以你可以试试下面的命令来随机生成一个有效的MAC地址。</p>
+<pre>
+printf "52:54:%02x:%02x:%02x:%02x" \
+$(( $RANDOM & 0xff)) $(( $RANDOM & 0xff )) \
+$(( $RANDOM & 0xff)) $(( $RANDOM & 0xff ))
+</pre>
+</div>
+<div class="admonition critical"><p class="admonition-title">注意</p><p>前面的<code>-net nic</code>只是定义 nic，你从VM中可以看到这个nic。但这个nic没有接入任何网络。</p>
+</div>
+<h3 id="User-mode-Networking"><a href="#User-mode-Networking" class="headerlink" title="User-mode Networking"></a>User-mode Networking</h3><p>使用<code>-net user</code>选项，可以指定前面定义的 nic 使用用户网络(User-mode Networking)。用法：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 [...] \</span><br><span class="line">-net nic[,...] \</span><br><span class="line">-net user[,option][,option][,...]</span><br></pre></td></tr></table></figure>
+<p>使用User-mode networking时，QEMU会通过<strong>QEMU内建</strong>的DHCP server给相应的nic分配IP地址。IP地址段从10.0.2.15开始，在VM中可以通过IP 10.0.2.2访问DHCP server，也就是host主机。所以在VM中，可以通过<code>ssh</code>/<code>scp</code>连接10.0.2.2来登录或拷贝文件。</p>
+<p>比如下面的命令运行的 VM 中会有一个 nic，该 nic model为e1000，VLAN为0，使用<strong>User-mode networking</strong>。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 \</span><br><span class="line">-enable-kvm \</span><br><span class="line">-net nic,macaddr=52:54:1b:aa:<span class="built_in">fc</span>:d2 \</span><br><span class="line">-net user \</span><br><span class="line">arch.qcow2</span><br></pre></td></tr></table></figure>
+<p>如果不使用任何nic相关选项时，QEMU 默认会给 VM 一个VLAN为0，model为e1000，使用User-mode networking的nic。所以，以下两个命令作用相同。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 \</span><br><span class="line">-enable-kvm \</span><br><span class="line">-net nic \</span><br><span class="line">-net user \</span><br><span class="line">arch.qcow2</span><br><span class="line"></span><br><span class="line">qemu-system-x86_64 \</span><br><span class="line">-enable-kvm \</span><br><span class="line">arch.qcow2</span><br></pre></td></tr></table></figure>
+<p>假设VM的user-mode networking nic获得的IP地址是10.0.2.15，VM可以通过连接10.0.2.2来访问host主机。但host主机<strong>并不能</strong>通过10.0.2.15来访问该VM。如果需要从host主机访问VM，可以使用user-mode networking的端口转发功能。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 \</span><br><span class="line">-enable-kvm \</span><br><span class="line">-net nic \</span><br><span class="line">-net user,hostfwd=tcp::2222-:22 \</span><br><span class="line">arch.qcow2</span><br></pre></td></tr></table></figure>
+<p>然后我们就可以通过<code>ssh</code>或<code>scp</code>连接主机的2222端口来访问这个VM。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 登录VM</span></span><br><span class="line">ssh -p 2222 0</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">ssh -p 2222 0.0.0.0</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">ssh -p 2222 localhost</span><br><span class="line"><span class="comment"># 使用用户xiaoming登录VM</span></span><br><span class="line">ssh -p 2222 xiaoming@0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拷贝文件至VM</span></span><br><span class="line">scp -P 2222 hello.c 0:~</span><br></pre></td></tr></table></figure>
+<h3 id="Tap-Networking"><a href="#Tap-Networking" class="headerlink" title="Tap Networking"></a>Tap Networking</h3><p>选项<code>-net tap</code>，可以让之前定义的nic使用tap networking。Tap networking能让我们更自由地组建虚拟化网络，而且起性能比user-mode networking好很多。</p>
+<p>用法：<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 [...] \</span><br><span class="line">-net nic[,...] \</span><br><span class="line">-net tap[,vlan=n][,name=name][,fd=h][,ifname=name][,script=file][,downscript=dfile][,helper=helper]</span><br></pre></td></tr></table></figure></p>
+<p>下面的例子运行的VM中会有一个nic，该nic会使用tap networking。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 \</span><br><span class="line">-enable-kvm \</span><br><span class="line">-net nic \</span><br><span class="line">-net tap,script=no \</span><br><span class="line">arch.qcow2</span><br></pre></td></tr></table></figure>
+<p>该VM运行之后，在host主机上会多出来一个nic，默认名字格式是<code>tapX</code>，其中X可以是0, 1, 2…。</p>
+<p>发送到host主机tap网卡的数据，会被发送到VM中的对应nic；VM中对应nic上的发送的数据也会被发送到host主机的对应tap网卡上。</p>
+<p>假设上面的VM运行之后，该VM中的nic名字叫eth0，主机上生成的nic名字叫tap0。你可以想象是有根网线将VM的eth0和host主机的tap0连接在了一起。</p>
+<p><code>-net tap</code>选项中:</p>
+<ul>
+<li><code>script=file</code>用来指定该VM起来时，要运行的脚本。通常这样的脚本用来对该tap网卡进行一些配置，比如设置IP地址，或者添加到某bridge中。<code>script=no</code>表示不使用任何脚本。如果不指明，QEMU默认会使用脚本<code>/etc/qemu-ifup</code>，如果host主机上没有这个脚本，会报错。</li>
+<li><code>downscript=dfile</code>用来指定VM被shutdown时，要运行的脚本。</li>
+<li><code>ifname=name</code>可以指定这个tap网卡的名字，比如<code>ifname=intf0</code>，就可以将其名字设成<code>intf0</code>。默认名字格式是<code>tapX</code>。</li>
+</ul>
+<p>上面<code>-net tap</code>的用法中没有提到的是，我们可以通过<code>vhost=on</code>来启用vhost从而获得<strong>更好的性能</strong>，通常与<code>-net nic,model=virtio</code>一起使用。比如：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 \</span><br><span class="line">-enable-kvm \</span><br><span class="line">-net nic,model=virtio \</span><br><span class="line">-net tap,script=no,downscript=no,vhost=on \</span><br><span class="line">arch.qcow2</span><br></pre></td></tr></table></figure>
+<h3 id="Bridged-Networking"><a href="#Bridged-Networking" class="headerlink" title="Bridged Networking"></a>Bridged Networking</h3><p>其实自己创建一个bridge，然后把host主机上的tap网卡添加进去就可以了。</p>
+<p>但我们也可以使用<code>-net bridge</code>选项，qemu-bridge-helper 会自动帮我们把tap网卡添加到相应的bridge中。用法：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 [...] \</span><br><span class="line">-net nic[,...] \</span><br><span class="line">-net bridge[,vlan=n][,name=name][,br=bridge][,helper=helper]</span><br></pre></td></tr></table></figure>
+<p>比如下面的例子，会自动将tap网卡添加到bridge <code>qemubr0</code>中。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 \</span><br><span class="line">-enable-kvm \</span><br><span class="line">-net nic,model=virtio \</span><br><span class="line">-net bridge,br=qemubr0 \</span><br><span class="line">arch.qcow2</span><br></pre></td></tr></table></figure>
+<p>在使用qemu-bridge-helper 之前我们必须要设定好<code>/etc/qemu/bridge.conf</code>，该文件用来描述允许QEMU使用的bridge。</p>
+<p>比如，内容可以如下：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">allow br0</span><br><span class="line">allow qemubr0</span><br></pre></td></tr></table></figure>
+<p>helper工具的路径，也可以通过<code>helper=helper</code>来指定，默认为 <code>/usr/lib/qemu/qemu-bridge/helper</code>。</p>
+<div class="admonition note"><p class="admonition-title">Note</p><p>上述qemu-brige-helper 和 bridge.conf 具体目录会因发行版(或自编译)安装目录的不同而不同。</p>
+</div>
+<h2 id="Using-Devices"><a href="#Using-Devices" class="headerlink" title="Using Devices"></a>Using Devices</h2><p>QEMU VM中使用设备的语法为：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu [...] \</span><br><span class="line">-drive <span class="keyword">if</span>=none,id=drive0,format=raw \</span><br><span class="line">-device virtio-blk-pci,drive=drive0,scsi=off ...</span><br></pre></td></tr></table></figure>
+<p>使用命令<code>qemu-system-x86_64 -device ?</code>来查看支持的 device driver 列表。要查看可以该 driver 可以使用的属性，使用命令 <code>qemu-system-x86_64 -device driver,?</code>，比如<code>qemu-system-x86_64 -devce virtio-blk-pci,?</code>。</p>
+<h3 id="Storage-Device"><a href="#Storage-Device" class="headerlink" title="Storage Device"></a>Storage Device</h3><p>比如使用4个image文件作为存储设备，可以使用下面的命令：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 -enable-kvm \</span><br><span class="line">-drive file=/images/image1.raw,index=0,media=disk \</span><br><span class="line">-drive file=/images/image2.raw,index=1,media=disk \</span><br><span class="line">-drive file=/images/image3.raw,index=2,media=disk \</span><br><span class="line">-drive file=/images/image4.raw,index=3,media=disk</span><br></pre></td></tr></table></figure>
+<p>但通常我们会使用QEMU提供的shortcut，比如上面的命令可以这样：</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">qemu-system-x86_64 -enable-kvm \</span><br><span class="line">-hda /images/imagei1.raw \</span><br><span class="line">-hdb /images/image2.raw \</span><br><span class="line">-hdc /images/image3.raw \</span><br><span class="line">-hdd /images/image4.raw</span><br></pre></td></tr></table></figure>
+<h3 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h3><p>其他诸如USB设备，显示设备，声音设备等，请参考<a href="http://wiki.qemu.org/download/qemu-doc.html" target="_blank" rel="external">QEMU Emulator User Documentation</a>。</p>
+<h2 id="Refs"><a href="#Refs" class="headerlink" title="Refs"></a>Refs</h2><ul>
+<li><a href="http://wiki.qemu.org/download/qemu-doc.html" target="_blank" rel="external">QEMU Emulator User Documentation</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/QEMU" target="_blank" rel="external">QEMU entry of archlinux wiki</a></li>
+<li><a href="https://www.suse.com/documentation/sles11/book_kvm/data/cha_qemu_running.html" target="_blank" rel="external">SUSE QEMU documentation</a></li>
+</ul>
+</div><div class="post-footer">By haishanh, Updated on 16/06/10</div><div class="post-author"><a href="http://hanhaishan.com"><img src="https://avatars0.githubusercontent.com/u/1166872?v=3" alt="Haishan"><span class="tooltip-arrow"></span><span class="tooltip">Haishan</span></a></div><div class="post-buttons"><a href="https://github.com/haishanh/cncs/blob/master/source/_posts/qemu.md" target="_blank">Source</a></div></div><div class="post-nav"><div style="height: 0; width: 0; position: absolute; visibility: hidden">
+  <!-- inject:svg --><svg xmlns="http://www.w3.org/2000/svg"><symbol id="ic_chevron_left_white_24px" viewBox="0 0 24 24">
+    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</symbol><symbol id="ic_chevron_right_white_24px" viewBox="0 0 24 24">
+    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+    <path d="M0 0h24v24H0z" fill="none"/>
+</symbol></svg><!-- endinjected -->
+</div><a href="/iproute2/" class="nav next">NEXT<svg class="icon right"><use xlink:href="#ic_chevron_right_white_24px"></use></svg></a></div></section><footer><h3>CNCS</h3><p>A Collection of Cheatsheets</p><div class="additional"><span>&copy;</span> 2016 <a href="http://hanhaishan.com">Haishan</a><br> Documentation licensed under <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a><br> Powered by <a href="https://hexo.io">Hexo</a>, theme using <a href="https://github.com/haishanh/hexo-theme-zxcvb">zxcvb</a>, hosted by <a href="https://github.com/haishanh/cncs/tree/gh-pages">Github Pages</a></div></footer><script src="/js/script.js"></script></body></html>
