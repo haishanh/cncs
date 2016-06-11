@@ -4,6 +4,12 @@ date: 2016-06-10
 updated: 2016-06-10
 author:
   - haishanh
+banner:
+  image: /assets/qemu.svg
+  size: 1000px 172px
+  position: center
+  color: '#1B78E3'
+  height: 252px
 ---
 
 QEMU 是一个开源的虚拟化软件。更准确的说：
