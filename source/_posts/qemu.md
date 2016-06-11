@@ -6,7 +6,7 @@ author:
   - haishanh
 banner:
   image: /assets/qemu.svg
-  size: 1000px 172px
+  size: 400px 170px
   position: center
   color: '#1B78E3'
   height: 252px
