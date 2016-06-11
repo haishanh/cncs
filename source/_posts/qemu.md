@@ -148,12 +148,14 @@ arch.qcow2
 
 VM nic的MAC地址必须是 `52:54` 开头。所以你可以试试下面的命令来随机生成一个有效的MAC地址。
 
-```
+<pre>
 printf "52:54:%02x:%02x:%02x:%02x" \
-$(( $RANDOM & 0xff)) $(( $RANDOM & 0xff )) $(( $RANDOM & 0xff)) $(( $RANDOM & 0xff ))
-```
+$(( $RANDOM & 0xff)) $(( $RANDOM & 0xff )) \
+$(( $RANDOM & 0xff)) $(( $RANDOM & 0xff ))
+</pre>
 
 {% endadmonition %}
+
 
 {% admonition critical 注意 %}
 
