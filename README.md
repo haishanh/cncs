@@ -1,6 +1,6 @@
 ## CNCS
 
-[cs.hanhaishan.com](http://cs.hanhaishan.com)
+[cs.haishan.me](http://cs.haishan.me)
 
 
 This repo contains a collection of Cheatsheets in Chinese for Chinese.
